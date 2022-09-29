@@ -1,25 +1,22 @@
 import Image from 'next/future/image'
-import Head from 'next/head'
 import Link from 'next/link'
 import clsx from 'clsx'
+import { links } from '@/lib/links'
 
 import { Container } from '@/components/Container'
-import {
-  TwitterIcon,
-  InstagramIcon,
-  GitHubIcon,
-  LinkedInIcon,
-} from '@/components/SocialIcons'
-import portraitImage from '@/images/portrait.jpg'
+import Head from '@/components/Head'
+import { TwitterIcon, GitHubIcon, LinkedInIcon } from '@/components/SocialIcons'
+import portraitImage from '@/images/porto.jpeg'
 
 function SocialLink({ className, href, children, icon: Icon }) {
   return (
     <li className={clsx(className, 'flex')}>
       <Link
         href={href}
-        className="group flex text-sm font-medium text-zinc-800 transition hover:text-teal-500 dark:text-zinc-200 dark:hover:text-teal-500"
+        passHref
+        className="group flex text-sm font-medium text-slate-800 transition hover:text-indigo-500 dark:text-slate-200 dark:hover:text-indigo-500"
       >
-        <Icon className="h-6 w-6 flex-none fill-zinc-500 transition group-hover:fill-teal-500" />
+        <Icon className="h-6 w-6 flex-none fill-slate-500 transition group-hover:fill-indigo-500" />
         <span className="ml-4">{children}</span>
       </Link>
     </li>
@@ -40,13 +37,7 @@ function MailIcon(props) {
 export default function About() {
   return (
     <>
-      <Head>
-        <title>About - Spencer Sharp</title>
-        <meta
-          name="description"
-          content="I’m Spencer Sharp. I live in New York City, where I design the future."
-        />
-      </Head>
+      <Head title="About" />
       <Container className="mt-16 sm:mt-32">
         <div className="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
           <div className="lg:pl-20">
@@ -55,23 +46,23 @@ export default function About() {
                 src={portraitImage}
                 alt=""
                 sizes="(min-width: 1024px) 32rem, 20rem"
-                className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
+                className="aspect-square rotate-3 rounded-2xl bg-slate-100 object-cover dark:bg-slate-800"
               />
             </div>
           </div>
           <div className="lg:order-first lg:row-span-2">
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-              I’m Spencer Sharp. I live in New York City, where I design the
-              future.
+            <h1 className="text-4xl font-bold tracking-tight text-slate-800 dark:text-slate-100 sm:text-5xl">
+              I’m Paul Ashraf. A Software Engineer by day, and a Film Critic by
+              night.
             </h1>
-            <div className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
+            <div className="mt-6 space-y-7 text-base text-slate-600 dark:text-slate-400">
               <p>
-                I’ve loved making things for as long as I can remember, and
-                wrote my first program when I was 6 years old, just two weeks
-                after my mom brought home the brand new Macintosh LC 550 that I
-                taught myself to type on.
+                I’m Paul, a software engineer at Zammit and an aspiring film
+                critic based in Cairo. Join me on my journey leading Zammit to
+                becoming the major e-commerce platform in the Middle East, while
+                watching pretty good movies too along the ride.
               </p>
-              <p>
+              {/* <p>
                 The only thing I loved more than computers as a kid was space.
                 When I was 8, I climbed the 40-foot oak tree at the back of our
                 yard while wearing my older sister’s motorcycle helmet, counted
@@ -90,29 +81,34 @@ export default function About() {
                 civilian space suits and manned shuttle kits you can assemble at
                 home so that the next generation of kids really <em>can</em>{' '}
                 make it to orbit — from the comfort of their own backyards.
-              </p>
+              </p> */}
             </div>
           </div>
           <div className="lg:pl-20">
             <ul role="list">
-              <SocialLink href="#" icon={TwitterIcon}>
+              <SocialLink href={links.twitter} icon={TwitterIcon}>
                 Follow on Twitter
               </SocialLink>
-              <SocialLink href="#" icon={InstagramIcon} className="mt-4">
-                Follow on Instagram
-              </SocialLink>
-              <SocialLink href="#" icon={GitHubIcon} className="mt-4">
+              <SocialLink
+                href={links.github}
+                icon={GitHubIcon}
+                className="mt-4"
+              >
                 Follow on GitHub
               </SocialLink>
-              <SocialLink href="#" icon={LinkedInIcon} className="mt-4">
+              <SocialLink
+                href={links.linkedin}
+                icon={LinkedInIcon}
+                className="mt-4"
+              >
                 Follow on LinkedIn
               </SocialLink>
               <SocialLink
-                href="mailto:spencer@planetaria.tech"
+                href={`mailto:${links.mail}`}
                 icon={MailIcon}
-                className="mt-8 border-t border-zinc-100 pt-8 dark:border-zinc-700/40"
+                className="mt-8 border-t border-slate-100 pt-8 dark:border-slate-700/40"
               >
-                spencer@planetaria.tech
+                {links.mail}
               </SocialLink>
             </ul>
           </div>
