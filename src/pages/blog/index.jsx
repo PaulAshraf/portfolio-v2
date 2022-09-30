@@ -9,9 +9,7 @@ function Article({ article }) {
   return (
     <article className="md:grid md:grid-cols-4 md:items-baseline">
       <Card className="md:col-span-3">
-        <Card.Title href={`/articles/${article.slug}`}>
-          {article.title}
-        </Card.Title>
+        <Card.Title href={`/blog/${article.slug}`}>{article.title}</Card.Title>
         <Card.Eyebrow
           as="time"
           dateTime={article.date}
@@ -37,10 +35,10 @@ function Article({ article }) {
 export default function ArticlesIndex({ articles }) {
   return (
     <>
-      <Head title="Articles" />
+      <Head title="Blog" />
       <SimpleLayout
-        title="Writing on software design and movie reviews"
-        intro="I will try to regularly write interesting and geeky software related content. Also, expect a ton of movie reviews!"
+        title="The most interesting tech + film blog you'll ever see!"
+        intro="Maybe cause it is the only one... I will try to regularly write interesting and geeky software related content. As well as current and classic movie reviews/movie lists."
       >
         <div className="md:border-l md:border-slate-100 md:pl-6 md:dark:border-slate-700/40">
           <div className="flex max-w-3xl flex-col space-y-16">

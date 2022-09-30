@@ -2,43 +2,39 @@ import { BriefcaseIcon, ArrowDownIcon } from '@/components/icons'
 import Image from 'next/future/image'
 import { Button } from '@/components/Button'
 
-import logoAirbnb from '@/images/logos/airbnb.svg'
-import logoFacebook from '@/images/logos/facebook.svg'
-import logoPlanetaria from '@/images/logos/planetaria.svg'
-import logoStarbucks from '@/images/logos/starbucks.svg'
+import coursera from '@/images/logos/coursera.png'
+import crowd from '@/images/logos/crowd2.png'
+import zammit from '@/images/logos/zammit.png'
 
 function Resume() {
   let resume = [
     {
-      company: 'Planetaria',
-      title: 'CEO',
-      logo: logoPlanetaria,
-      start: '2019',
-      end: {
-        label: 'Present',
-        dateTime: new Date().getFullYear(),
-      },
+      company: 'Zammit',
+      title: 'Lead Software Engineer',
+      logo: zammit,
+      start: 'Mar 2022',
+      end: 'Present',
     },
     {
-      company: 'Airbnb',
-      title: 'Product Designer',
-      logo: logoAirbnb,
-      start: '2014',
-      end: '2019',
+      company: 'Zammit',
+      title: 'Software Engineer',
+      logo: zammit,
+      start: 'Aug 2021',
+      end: 'Mar 2022',
     },
     {
-      company: 'Facebook',
-      title: 'iOS Software Engineer',
-      logo: logoFacebook,
-      start: '2011',
-      end: '2014',
+      company: 'Crowd Analyzer',
+      title: 'Software Engineer',
+      logo: crowd,
+      start: 'Mar 2021',
+      end: 'Aug 2021',
     },
     {
-      company: 'Starbucks',
-      title: 'Shift Supervisor',
-      logo: logoStarbucks,
-      start: '2008',
-      end: '2011',
+      company: 'Coursera',
+      title: 'Web Development Instructor',
+      logo: coursera,
+      start: 'Aug 2020',
+      end: 'Jan 2021',
     },
   ]
 
@@ -52,7 +48,12 @@ function Resume() {
         {resume.map((role, roleIndex) => (
           <li key={roleIndex} className="flex gap-4">
             <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md shadow-slate-800/5 ring-1 ring-slate-900/5 dark:border dark:border-slate-700/50 dark:bg-slate-800 dark:ring-0">
-              <Image src={role.logo} alt="" className="h-7 w-7" unoptimized />
+              <Image
+                src={role.logo}
+                alt=""
+                className="h-7 w-7 rounded-full"
+                unoptimized
+              />
             </div>
             <dl className="flex flex-auto flex-wrap gap-x-2">
               <dt className="sr-only">Company</dt>
@@ -82,10 +83,10 @@ function Resume() {
           </li>
         ))}
       </ol>
-      <Button href="#" variant="secondary" className="group mt-6 w-full">
+      {/* <Button href="#" variant="secondary" className="group mt-6 w-full">
         Download CV
         <ArrowDownIcon className="h-4 w-4 stroke-slate-400 transition group-active:stroke-slate-600 dark:group-hover:stroke-slate-50 dark:group-active:stroke-slate-50" />
-      </Button>
+      </Button> */}
     </div>
   )
 }
