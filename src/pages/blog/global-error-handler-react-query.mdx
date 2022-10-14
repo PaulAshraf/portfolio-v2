@@ -1,0 +1,113 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import Image from 'next/future/image'
+
+export const meta = {
+  author: 'Paul Ashraf',
+  date: '2022-10-14',
+  title: 'Implementing a Global Error Handler with React Query',
+  description:
+    'A nice trick that enables you to implement a global error handler for all mutations while also preserving the ability to handle individual errors separately.',
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+There is a nice trick within the amazing React Query library that is not well-known which enables us to catch all errors that will be thrown by mutations or queries inside the whole project. The trick is to define our own `MutationCache` or `QueryCache` and pass it to our `QueryClient` instance.
+
+```tsx
+function MyApp({ Component, pageProps }: AppProps) {
+
+  const [queryClient] = useState(() => new QueryClient());
+
+  return (
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+            <Component {...pageProps} />
+        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </div>
+  );
+}
+```
+
+This is a typical React Query setup. Here React Query will implicitly create for us our `MutationCache` and `QueryCache` that will be used by the `QueryClient` instance. However we can define our own instances of the caches and pass it to the constructor of `QueryClient`.
+
+For the rest of the guide I will only implement the `MutationCache` but the exact same steps could be taken for the `QueryCache`.
+
+```tsx
+function MyApp({ Component, pageProps }: AppProps) {
+
+  const mutationCache = new MutationCache()
+  const [queryClient] = useState(() => new QueryClient({ mutationCache }))
+
+   return (
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+            <Component {...pageProps} />
+        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </div>
+  );
+}
+```
+
+The `MutationCache` constructor takes a lot of options, the most relevant one for now is to define a typical `onError` function, like the normal ones you'd implement with `useMutation` or `useQuery`.
+
+```tsx
+function MyApp({ Component, pageProps }: AppProps) {
+
+  const mutationCache = new MutationCache({
+    onError: (error) => {
+      // any error handling code...
+      console.error(error)
+    }
+  })
+
+  const [queryClient] = useState(() => new QueryClient({ mutationCache }))
+
+   return (
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+            <Component {...pageProps} />
+        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </div>
+  );
+}
+```
+
+With those simple few lines we already implemented our global error handler. Now any mutation fired with `useMutation` thought the whole project will pass by this `onError` if it result in an error. You even have access to the `error` object so you can add conditional logic like only display a toast if the status is `>=500`.
+
+One small issue remains... What if you want to handle an error using a different way in a specific `useMutation` instance, i.e. you want to define a specific `onError` for that mutation buy obviously you want all other mutations to pass by the global `onError` we defined above. With the current implementation, it will pass by both which is obviously an undesirable behavior.
+Making matters worse, it wall pass by the global one first, which prevents us from passing any data through the `error` object that we can then use inside the `onError` of the `MutationCache`.
+
+Don't worry! There is an elegant solution for this problem. The `onError` of the `MutationCache` also receives an `mutation` object which contains the relevant options used in the `useMutation` call. This is perfect because this is exposes wether the `useMutation` that fired this api call had an `onError` defined or not. We can then conditionally handle the error or ignore it.
+
+```tsx
+function MyApp({ Component, pageProps }: AppProps) {
+
+  const mutationCache = new MutationCache({
+    onError: (error, _variables, _context, mutation) => {
+      // If this mutation has an onError defined, skip this
+      if (mutation.options.onError) return;
+
+      // any error handling code...
+      console.error(error)
+    }
+  })
+
+  const [queryClient] = useState(() => new QueryClient({ mutationCache }))
+
+   return (
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+            <Component {...pageProps} />
+        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </div>
+  );
+}
+```
