@@ -37,8 +37,8 @@ For the rest of the guide I will only implement the `MutationCache` but the exac
 ```tsx
 function MyApp({ Component, pageProps }: AppProps) {
 
-  const mutationCache = new MutationCache()
-  const [queryClient] = useState(() => new QueryClient({ mutationCache }))
+  const mutationCache = new MutationCache();
+  const [queryClient] = useState(() => new QueryClient({ mutationCache }));
 
    return (
       <QueryClientProvider client={queryClient}>
@@ -60,11 +60,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   const mutationCache = new MutationCache({
     onError: (error) => {
       // any error handling code...
-      console.error(error)
+      console.error(error);
     }
-  })
+  });
 
-  const [queryClient] = useState(() => new QueryClient({ mutationCache }))
+  const [queryClient] = useState(() => new QueryClient({ mutationCache }));
 
    return (
       <QueryClientProvider client={queryClient}>
@@ -78,12 +78,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 ```
 
-With those simple few lines we already implemented our global error handler. Now any mutation fired with `useMutation` thought the whole project will pass by this `onError` if it result in an error. You even have access to the `error` object so you can add conditional logic like only display a toast if the status is `>=500`.
+With those simple few lines we already implemented our global error handler. Now any mutation fired with `useMutation` thought the whole project will pass by this `onError` if it results in an error. You even have access to the `error` object so you can add conditional logic, like: "only displaying a toast if the status is `>=500`".
 
-One small issue remains... What if you want to handle an error using a different way in a specific `useMutation` instance, i.e. you want to define a specific `onError` for that mutation buy obviously you want all other mutations to pass by the global `onError` we defined above. With the current implementation, it will pass by both which is obviously an undesirable behavior.
+One small issue remains... What if you want to handle an error using a different way in a specific `useMutation` instance, i.e. you want to define a specific `onError` for that mutation but obviously you want all other mutations to pass by the global `onError` we defined above. With the current implementation, it will pass by both, which is obviously an undesirable behavior.
 Making matters worse, it wall pass by the global one first, which prevents us from passing any data through the `error` object that we can then use inside the `onError` of the `MutationCache`.
 
-Don't worry! There is an elegant solution for this problem. The `onError` of the `MutationCache` also receives an `mutation` object which contains the relevant options used in the `useMutation` call. This is perfect because this is exposes wether the `useMutation` that fired this api call had an `onError` defined or not. We can then conditionally handle the error or ignore it.
+Don't worry! There is an elegant solution for this problem. The `onError` of the `MutationCache` also receives a `mutation` object which contains the relevant options used in the `useMutation` call. This is perfect because this is exposes wether the `useMutation` that fired this api call had an `onError` defined or not. We can then conditionally handle the error or ignore it.
 
 ```tsx
 function MyApp({ Component, pageProps }: AppProps) {
@@ -94,11 +94,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       if (mutation.options.onError) return;
 
       // any error handling code...
-      console.error(error)
+      console.error(error);
     }
-  })
+  });
 
-  const [queryClient] = useState(() => new QueryClient({ mutationCache }))
+  const [queryClient] = useState(() => new QueryClient({ mutationCache }));
 
    return (
       <QueryClientProvider client={queryClient}>
