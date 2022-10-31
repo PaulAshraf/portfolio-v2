@@ -1886,6 +1886,13 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+hast-util-from-string@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/hast-util-from-string/-/hast-util-from-string-2.0.0.tgz#a04c2805d4511d47c0fdea7545985f272ee0f5c6"
+  integrity sha512-9JlBGWh+RXbT8PDrdwYZloN6poib8xg7Vq+LgN5TTqnaMDO0YqfX4EyZd3Myel6yIXlDsgysiRB1CTjH2K+1Dg==
+  dependencies:
+    "@types/hast" "^2.0.0"
+
 hast-util-parse-selector@^2.0.0:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/hast-util-parse-selector/-/hast-util-parse-selector-2.2.5.tgz#d57c23f4da16ae3c63b3b6ca4616683313499c3a"
@@ -1916,6 +1923,13 @@ hast-util-to-string@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/hast-util-to-string/-/hast-util-to-string-1.0.4.tgz#9b24c114866bdb9478927d7e9c36a485ac728378"
   integrity sha512-eK0MxRX47AV2eZ+Lyr18DCpQgodvaS3fAQO2+b9Two9F5HEoRPhiUMNzoXArMJfZi2yieFzUBMRl3HNJ3Jus3w==
+
+hast-util-to-string@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/hast-util-to-string/-/hast-util-to-string-2.0.0.tgz#b008b0a4ea472bf34dd390b7eea1018726ae152a"
+  integrity sha512-02AQ3vLhuH3FisaMM+i/9sm4OXGSq1UhOOCpTLLQtHdL3tZt7qil69r8M8iDkZYyC0HCFylcYoP+8IO7ddta1A==
+  dependencies:
+    "@types/hast" "^2.0.0"
 
 hast-util-whitespace@^2.0.0:
   version "2.0.0"
@@ -3831,6 +3845,15 @@ registry-url@^5.0.0:
   dependencies:
     rc "^1.2.8"
 
+rehype-prism-diff@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/rehype-prism-diff/-/rehype-prism-diff-1.1.2.tgz#e6a4dc951d5db9a0eb18eb289844221052b2553d"
+  integrity sha512-ETKbxHy8dTOBhIjBOa+hCpG5NJ7RNHi2CMyl9BMXE+xNEFwGjBbt0tQYJ0wKOEg+8ywwVZIcC9eMkjfzdOlE2Q==
+  dependencies:
+    hast-util-from-string "^2.0.0"
+    hast-util-to-string "^2.0.0"
+    unist-util-visit "^4.1.0"
+
 remark-gfm@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/remark-gfm/-/remark-gfm-3.0.1.tgz#0b180f095e3036545e9dddac0e8df3fa5cfee54f"
@@ -4545,7 +4568,7 @@ unist-util-visit@^2.0.3:
     unist-util-is "^4.0.0"
     unist-util-visit-parents "^3.0.0"
 
-unist-util-visit@^4.0.0:
+unist-util-visit@^4.0.0, unist-util-visit@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/unist-util-visit/-/unist-util-visit-4.1.1.tgz#1c4842d70bd3df6cc545276f5164f933390a9aad"
   integrity sha512-n9KN3WV9k4h1DxYR1LoajgN93wpEi/7ZplVe02IoB4gH5ctI1AaF2670BLHQYbwj+pY83gFtyeySFiyMHJklrg==

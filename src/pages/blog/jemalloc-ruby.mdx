@@ -1,0 +1,32 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import Image from 'next/future/image'
+
+export const meta = {
+  author: 'Paul Ashraf',
+  date: '2022-10-31',
+  title: 'Better Memory Performance in Ruby/Rails with Jemalloc',
+  description:
+    "Instantly improve your ruby/rails' memory footprint with this 2 line change by using jemalloc instead of malloc",
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support. It really shines when used with ruby, and adding it is pretty painless.
+
+All you have to do is add the following 2 lines to your `Dockerfile`.
+
+```dockerfile
+RUN apt-get update ; \
+    apt-get install -y --no-install-recommends libjemalloc2 ;
+
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
+```
+
+We are going to use the `LD_PRELOAD` environment variable approach above. If you set `LD_PRELOAD` to the path of a shared object, that file will be loaded before any other library (including the C runtime, `libc.so`). So to run our jemalloc implementation, we just define the path of the jemalloc lib.
+
+For M1 Macs you will need to change the path as follows:
+
+```dockerfile
+# use this for m1 macs
+ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libjemalloc.so.2
+```
