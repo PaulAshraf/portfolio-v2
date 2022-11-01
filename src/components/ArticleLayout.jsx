@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import Giscus from '@giscus/react'
 
 import { Container } from '@/components/Container'
 import { formatDate } from '@/lib/formatDate'
@@ -62,7 +63,22 @@ export function ArticleLayout({
                   <span className="ml-3">{formatDate(meta.date)}</span>
                 </time>
               </header>
-              <Prose className="mt-8">{children}</Prose>
+              <Prose className="my-8">{children}</Prose>
+              <Giscus
+                id="comments"
+                repo="PaulAshraf/portfolio-v2"
+                repoId="R_kgDOGieZpg"
+                category="Announcements"
+                categoryId="DIC_kwDOGieZps4CSUPI"
+                mapping="title"
+                reactionsEnabled="1"
+                emitMetadata="0"
+                inputPosition="top"
+                theme="preferred_color_scheme"
+                lang="en"
+                loading="lazy"
+                strict
+              />
             </article>
           </div>
         </div>
