@@ -33,7 +33,7 @@ function Newsletter() {
           DM me on LinkedIn
         </SocialLink>
         <SocialLink
-          href={`mailto:${links.mail}?subject=Collaborationx`}
+          href={`mailto:${links.mail}?subject=Collaboration`}
           icon={MailIcon}
         >
           Email me on {links.mail}
