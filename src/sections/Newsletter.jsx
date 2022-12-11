@@ -1,5 +1,9 @@
-import { MailIcon } from '@/components/icons'
+import { Computer } from '@/components/icons'
 import { Button } from '@/components/Button'
+import { SocialLink } from '@/components/SocialLink'
+import { links } from '@/lib/links'
+import { LinkedInIcon } from '@/components/SocialIcons'
+import { AlternateMailIcon as MailIcon } from '@/components/icons'
 
 function Newsletter() {
   return (
@@ -8,14 +12,14 @@ function Newsletter() {
       className="rounded-2xl border border-slate-100 p-6 dark:border-slate-700/40"
     >
       <h2 className="flex text-sm font-semibold text-slate-900 dark:text-slate-100">
-        <MailIcon className="h-6 w-6 flex-none" />
-        <span className="ml-3">Stay up to date</span>
+        <Computer className="h-6 w-6 flex-none" />
+        <span className="ml-3">{"Let's Collaborate"}</span>
       </h2>
       <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-        Get notified when I publish something new, and unsubscribe at any time.
+        Reach out on LinkedIn or email and let&apos;s work together!
       </p>
-      <div className="mt-6 flex">
-        <input
+      <div className="mt-5 flex-col">
+        {/* <input
           type="email"
           placeholder="Email address"
           aria-label="Email address"
@@ -24,7 +28,16 @@ function Newsletter() {
         />
         <Button type="submit" className="ml-4 flex-none">
           Join
-        </Button>
+        </Button> */}
+        <SocialLink href={links.linkedin} icon={LinkedInIcon} className="mb-2">
+          DM me on LinkedIn
+        </SocialLink>
+        <SocialLink
+          href={`mailto:${links.mail}?subject=Collaborationx`}
+          icon={MailIcon}
+        >
+          Email me on {links.mail}
+        </SocialLink>
       </div>
     </form>
   )

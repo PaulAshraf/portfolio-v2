@@ -5,6 +5,8 @@ import { Button } from '@/components/Button'
 import coursera from '@/images/logos/coursera.png'
 import crowd from '@/images/logos/crowd2.png'
 import zammit from '@/images/logos/zammit.png'
+import inesc from '@/images/logos/inesc2.png'
+import callvita from '@/images/logos/callvita.png'
 
 function Resume() {
   let resume = [
@@ -30,11 +32,25 @@ function Resume() {
       end: 'Aug 2021',
     },
     {
+      company: 'Callvita',
+      title: 'Software Engineer',
+      logo: callvita,
+      start: 'Nov 2020',
+      end: 'Mar 2021',
+    },
+    {
       company: 'Coursera',
       title: 'Web Development Instructor',
       logo: coursera,
       start: 'Aug 2020',
       end: 'Jan 2021',
+    },
+    {
+      company: 'INESC, University of Porto',
+      title: 'Research Assistant',
+      logo: inesc,
+      start: 'Jul 20219',
+      end: 'Sep 2019',
     },
   ]
 
@@ -83,10 +99,15 @@ function Resume() {
           </li>
         ))}
       </ol>
-      {/* <Button href="#" variant="secondary" className="group mt-6 w-full">
+      <Button
+        href="paul_ashraf_cv.pdf"
+        variant="secondary"
+        className="group mt-6 w-full"
+        target="_blank"
+      >
         Download CV
         <ArrowDownIcon className="h-4 w-4 stroke-slate-400 transition group-active:stroke-slate-600 dark:group-hover:stroke-slate-50 dark:group-active:stroke-slate-50" />
-      </Button> */}
+      </Button>
     </div>
   )
 }
