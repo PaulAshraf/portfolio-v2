@@ -1,0 +1,61 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import Image from 'next/future/image'
+import img1 from './1.png'
+import img2 from './2.png'
+
+export const meta = {
+  author: 'Paul Ashraf',
+  date: '2022-12-24',
+  title: 'A day in the life of a Kubernetes developer/administrator',
+  description:
+    'Just a walk through of an annoying bug I faced in our cloud-native setup, that forced me to consider whether all of this complexity is worth it.',
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+This read will just be a walk through of an annoying bug I faced in our cloud-native setup. It forced me to consider whether all of this complexity is worth it.
+
+Here at [Zammit](https://zammit.shop) we use [Helm Charts](https://helm.sh/) to build and release our services. Each service has a `/deploy` directory with it's helm chart's definition.
+
+This includes all the [Kubernetes](https://kubernetes.io/) manifests it needs to define, like an `ingress`, `deployment`, `hpa` and so on. It can also list other helm charts as its dependencies. For example, our main service had [Bitnami](https://bitnami.com/)'s `redis` helm chart with a specific version (foreshadowing 😢). Our release pipeline is then as follows:
+
+- **CI: Github Actions**
+  - We build our docker image using Github Actions
+  - We upload them to image to our **GCP** bucket
+  - We create a git tag in our repo
+- **CD: ArgoCD**
+  - ArgoCD then listens for git tags on our git repo
+  - If it finds out it then instates a sync
+  - It gets the code attached to the latest git tag, and builds the helm chart (with it's dependencies)
+  - It caches the output in the internal redis pod it has, to save on time
+  - It takes the output K8S manifested and syncs them using `kubectl`
+
+The system was working great, until it didn't. We faced a weird cryptic error:
+
+<Image src={img1} />
+
+After some googling around, turns out this is a common Argo error, and it happens when the `helm template` command fails. (Remember that argo only uses helm for its templating functionality, it manges the K8S syncing itself). Argo then caches this result in redis, so even a rebuild will not fix this because the helm chart did not change. According to a lot of threads on their Github Issues, this could happen randomly due to weird race conditions, or a myriad other reasons. So then I tried my first approach:
+
+### Approach #1: Flush the redis cache using `FLUSHALL` and restart the `repo-server` pod.
+
+Unfortunately that did not work. However, it leaded me looking into the `repo-server` logs, which turned out to be really useful. I then was able to see the actual `helm template` build error, not the cryptic on Argo was giving me in the UI. It said it could not find the `redis` chart in the `/charts` subdirectory.
+
+That is weird, why is that happening? After some googling, I could not find anyone having similar issue. However, I realized our Argo helm chart version was quite old and a lot of bugs was solved since then. So my next approach was to upgrade Argo, maybe it magically solves the issue!
+
+### Approach #2: Upgrade the Argo helm chart to the latest version.
+
+After some annoyances with the `helm upgrade` command; is it `helm upgrade argo-cd argo/argo-cd` or `helm upgrade argo/argo-cd argo-cd`? So annoying. As expected, this did not solve the issue. During my last google search, a lot of people faces that error (the "could not find the `redis` chart in the `/charts` subdirectory") when trying `helm dep update` command. While this was unrelated to Argo, it dawned on me that the `repo-server` pod is the once pulling our repo from git, and I can run `helm` commands there.
+
+So I decided to do the `helm dep update` myself. Finally, I get a proper error message! It said it could not download the `bitnami/redis` chart. After looking on [Artifact Hub](https://artifacthub.io/packages/helm/bitnami/redis), turns out our redis version was not listed anymore to be downloadable. So the obvious next step is to try and upgrade redis.
+
+### Approach #2: Upgrade the helm chart dependencies.
+
+Just bump the version in `Chart.yaml` but don't forget to run `helm dep update` so it can update the `Chart.lock` file. And that was it, Flush the redis cache and the build passes!
+
+<Image src={img2} />
+
+This article is not a criticism of any of the tools mentioned above. These are all amazing tools and it is a ton of fun working with them. However, this annoying bug forced me to reconsider that this complicated CI/CD setup is quite over-engineered for our small startup.
+
+A 50-developer company with a platform engineering team, Awesome ✅. A 4-developer small startup, maybe be it needs to be reconsidered 🤔
+
+One last closing thought, is we engineers often don't consider how valuable our time is. In our pursuit of open-source, cloud-native tools that are fun to engineer and provide no vendor lock-ins, we often forget that they come with a hidden cost; the huge engineering time and effort it takes to maintain these tools and systems. For some teams, that cost makes sense and will pay off, for others it will not.

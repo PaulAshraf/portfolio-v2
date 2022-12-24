@@ -4,7 +4,7 @@
         <title>Paul Ashraf</title>
         <link>https://www.paulashraf.com</link>
         <description>Paul Ashraf Software Finds and Movie Reviews</description>
-        <lastBuildDate>Sat, 19 Nov 2022 14:24:19 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 24 Dec 2022 16:12:09 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
@@ -13,6 +13,69 @@
             <link>https://www.paulashraf.com</link>
         </image>
         <copyright>All rights reserved 2022</copyright>
+        <item>
+            <title><![CDATA[A day in the life of a Kubernetes developer/administrator]]></title>
+            <link>https://www.paulashraf.com/blog/a-day-in-the-life-of-a-kubernetes-developer</link>
+            <guid>https://www.paulashraf.com/blog/a-day-in-the-life-of-a-kubernetes-developer</guid>
+            <pubDate>Sat, 24 Dec 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Just a walk through of an annoying bug I faced in our cloud-native setup, that forced me to consider whether all of this complexity is worth it.]]></description>
+            <content:encoded><![CDATA[<p>This read will just be a walk through of an annoying bug I faced in our cloud-native setup. It forced me to consider whether all of this complexity is worth it.</p>
+<p>Here at <a href="https://zammit.shop">Zammit</a> we use <a href="https://helm.sh/">Helm Charts</a> to build and release our services. Each service has a <code>/deploy</code> directory with it&#x27;s helm chart&#x27;s definition.</p>
+<p>This includes all the <a href="https://kubernetes.io/">Kubernetes</a> manifests it needs to define, like an <code>ingress</code>, <code>deployment</code>, <code>hpa</code> and so on. It can also list other helm charts as its dependencies. For example, our main service had <a href="https://bitnami.com/">Bitnami</a>&#x27;s <code>redis</code> helm chart with a specific version (foreshadowing 😢). Our release pipeline is then as follows:</p>
+<ul>
+<li><strong>CI: Github Actions</strong>
+<ul>
+<li>We build our docker image using Github Actions</li>
+<li>We upload them to image to our <strong>GCP</strong> bucket</li>
+<li>We create a git tag in our repo</li>
+</ul>
+</li>
+<li><strong>CD: ArgoCD</strong>
+<ul>
+<li>ArgoCD then listens for git tags on our git repo</li>
+<li>If it finds out it then instates a sync</li>
+<li>It gets the code attached to the latest git tag, and builds the helm chart (with it&#x27;s dependencies)</li>
+<li>It caches the output in the internal redis pod it has, to save on time</li>
+<li>It takes the output K8S manifested and syncs them using <code>kubectl</code></li>
+</ul>
+</li>
+</ul>
+<p>The system was working great, until it didn&#x27;t. We faced a weird cryptic error:</p>
+<img src="/_next/static/media/1.738d82b2.png" width="2170" height="448" decoding="async" data-nimg="future" loading="lazy" style="color:transparent"/>
+<p>After some googling around, turns out this is a common Argo error, and it happens when the <code>helm template</code> command fails. (Remember that argo only uses helm for its templating functionality, it manges the K8S syncing itself). Argo then caches this result in redis, so even a rebuild will not fix this because the helm chart did not change. According to a lot of threads on their Github Issues, this could happen randomly due to weird race conditions, or a myriad other reasons. So then I tried my first approach:</p>
+<h3>Approach #1: Flush the redis cache using <code>FLUSHALL</code> and restart the <code>repo-server</code> pod.</h3>
+<p>Unfortunately that did not work. However, it leaded me looking into the <code>repo-server</code> logs, which turned out to be really useful. I then was able to see the actual <code>helm template</code> build error, not the cryptic on Argo was giving me in the UI. It said it could not find the <code>redis</code> chart in the <code>/charts</code> subdirectory.</p>
+<p>That is weird, why is that happening? After some googling, I could not find anyone having similar issue. However, I realized our Argo helm chart version was quite old and a lot of bugs was solved since then. So my next approach was to upgrade Argo, maybe it magically solves the issue!</p>
+<h3>Approach #2: Upgrade the Argo helm chart to the latest version.</h3>
+<p>After some annoyances with the <code>helm upgrade</code> command; is it <code>helm upgrade argo-cd argo/argo-cd</code> or <code>helm upgrade argo/argo-cd argo-cd</code>? So annoying. As expected, this did not solve the issue. During my last google search, a lot of people faces that error (the &quot;could not find the <code>redis</code> chart in the <code>/charts</code> subdirectory&quot;) when trying <code>helm dep update</code> command. While this was unrelated to Argo, it dawned on me that the <code>repo-server</code> pod is the once pulling our repo from git, and I can run <code>helm</code> commands there.</p>
+<p>So I decided to do the <code>helm dep update</code> myself. Finally, I get a proper error message! It said it could not download the <code>bitnami/redis</code> chart. After looking on <a href="https://artifacthub.io/packages/helm/bitnami/redis">Artifact Hub</a>, turns out our redis version was not listed anymore to be downloadable. So the obvious next step is to try and upgrade redis.</p>
+<h3>Approach #2: Upgrade the helm chart dependencies.</h3>
+<p>Just bump the version in <code>Chart.yaml</code> but don&#x27;t forget to run <code>helm dep update</code> so it can update the <code>Chart.lock</code> file. And that was it, Flush the redis cache and the build passes!</p>
+<img src="/_next/static/media/2.51830bd6.png" width="1782" height="438" decoding="async" data-nimg="future" loading="lazy" style="color:transparent"/>
+<p>This article is not a criticism of any of the tools mentioned above. These are all amazing tools and it is a ton of fun working with them. However, this annoying bug forced me to reconsider that this complicated CI/CD setup is quite over-engineered for our small startup.</p>
+<p>A 50-developer company with a platform engineering team, Awesome ✅. A 4-developer small startup, maybe be it needs to be reconsidered 🤔</p>
+<p>One last closing thought, is we engineers often don&#x27;t consider how valuable our time is. In our pursuit of open-source, cloud-native tools that are fun to engineer and provide no vendor lock-ins, we often forget that they come with a hidden cost; the huge engineering time and effort it takes to maintain these tools and systems. For some teams, that cost makes sense and will pay off, for others it will not.</p>]]></content:encoded>
+            <author>me@paulashraf.com (Paul Ashraf)</author>
+        </item>
+        <item>
+            <title><![CDATA[Luca (2021) dir. Enrico Casarosa]]></title>
+            <link>https://www.paulashraf.com/blog/luca</link>
+            <guid>https://www.paulashraf.com/blog/luca</guid>
+            <pubDate>Fri, 23 Dec 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[On the Italian Riviera, an unlikely but strong friendship grows between a human being and a sea monster disguised as a human.]]></description>
+            <content:encoded><![CDATA[<p>A little Pixar flick that was easily forgotten during the post-pandemic movies rush. The movie revolves around Luca, a &quot;sea-monster&quot; that has the ability to turn human if he goes out of water. Some events transpires early on in the movie that thrusts him into a cute little adventure in a small italian town.</p>
+<p>As with all Pixar movies lately, I do not need to mention the breathtaking animation! It excellently merges life-like scenery with unrealistic cartoon human characters, that produces a film that is just a joy to look at. Pixar, in my opinion, outdid themselves with their depiction of a small italian village during the summer.</p>
+<p>Coupling the excellent animation, with great voice acting, a beautiful original soundtrack and a mix of great italian classics, you get a movie deserving the often-cliche description &quot;Every frame a painting&quot;.</p>
+<img src="/_next/static/media/1.8e7a1639.jpg" width="3840" height="2160" decoding="async" data-nimg="future" loading="lazy" style="color:transparent"/>
+<p>However, my positive experience ends here as I have multiple issues with the writing and direction here. While the direction and writing has this care-free low-stakes vision that mirrors the events of the film&#x27;s adventure, it produces a plot that is weirdly paced, and has very low stakes.</p>
+<p>Without getting into details, the movie does not provide us with many reasons to care for our protagonist&#x27;s adventure. And that adventure itself does not have any deeper meaning or parallels that any adult would appreciate. If you have expectations similar to other Pixar movies, you will greatly be disappointed.</p>
+<p>The characters also lake any depth, like Lucas&#x27; friend, but where it really shows is the incredibly 1-dimensional villain in this movie. What a wasted opportunity!</p>
+<img src="/_next/static/media/2.ec767b3c.jpg" width="1920" height="1034" decoding="async" data-nimg="future" loading="lazy" style="color:transparent"/>
+<p>The movie makes up for its lame opening and second act with an exciting third act and an emotional finale. However, I expect more from a Pixar movie and this movie left me a little bit disappointed.</p>
+<p>Although I will keep listening to the amazing soundtrack, this will be one of the few Pixar films that I will not re-watch again anytime soon.
+6.5/10.</p>]]></content:encoded>
+            <author>me@paulashraf.com (Paul Ashraf)</author>
+        </item>
         <item>
             <title><![CDATA[Better Memory Performance in Ruby/Rails with Jemalloc]]></title>
             <link>https://www.paulashraf.com/blog/jemalloc-ruby</link>
@@ -134,14 +197,14 @@ Making matters worse, it wall pass by the global one first, which prevents us fr
             <pubDate>Thu, 29 Sep 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[When two girls move to the country to be near their ailing mother, they have adventures with the wondrous forest spirits who live nearby.]]></description>
             <content:encoded><![CDATA[<p>The second Miyazaki film I&#x27;ve seen (after the infamous Spirited Away) and it had me gripped all the way, exactly like Spirited Away. This for sure will be the start of my Studio Ghibli journey.</p>
-<p>The movie opens with a finendy child-like Song about Totoro, and as the first act plays out, you are delighted with of the most simple, gorgeous, gripping children movie you&#x27;ll ever see. And here, I&#x27;m not saying a children movie as a negative!</p>
+<p>The movie opens with a friendly child-like Song about Totoro, and as the first act plays out, you are delighted with of the most simple, gorgeous, gripping children movie you&#x27;ll ever see. And here, I&#x27;m not saying a children movie as a negative!</p>
 <img src="/_next/static/media/1.5fdc752a.jpeg" width="1200" height="675" decoding="async" data-nimg="future" loading="lazy" style="color:transparent"/>
-<p>The story is about two girls, Stuski and Mei, moving to rural Japan with their father, while their mother is in the hospilal. As they battle the fact that their mother is sick, and the fear of living in a new place, they stert letling thier imagination roam free.</p>
-<p>By doing this, we are delighted with a gorgeous, expertly cralled, deeply personl peice of cinema.
-While the movie is relatively &quot;action-free&quot;, and the plot could be summariesed in a couple of lines, the movie it&#x27;s beautiful frames will grip you from start to the finish with it&#x27;s beautiful frames, wonderful music and personal story.</p>
+<p>The story is about two girls, Stuski and Mei, moving to rural Japan with their father, while their mother is in the hospital. As they battle the fact that their mother is sick, and the fear of living in a new place, they start letting their imagination roam free.</p>
+<p>By doing this, we are delighted with a gorgeous, expertly crafted, deeply personal piece of cinema.
+While the movie is relatively &quot;action-free&quot;, and the plot could be summarized in a couple of lines, the movie it&#x27;s beautiful frames will grip you from start to the finish with it&#x27;s beautiful frames, wonderful music and personal story.</p>
 <img src="/_next/static/media/2.231efc8a.jpeg" width="1600" height="900" decoding="async" data-nimg="future" loading="lazy" style="color:transparent"/>
-<p>I was not suprised that this movie was largly, auto-biographical, and you will definitly feel it. Miyazaki has to change the charchter to two girls, in order not to make it too personal. I still prefer Spirited Away over this, but part at me just enjoy these very simple films.</p>
-<p>This will definetly be rewatched many many times again.
+<p>I was not surprised that this movie was largely, auto-biographical, and you will definitely feel it. Miyazaki has to change the character to two girls, in order not to make it too personal. I still prefer Spirited Away over this, but part at me just enjoy these very simple films.</p>
+<p>This will definitely be rematched many many times again.
 8/10.</p>]]></content:encoded>
             <author>me@paulashraf.com (Paul Ashraf)</author>
         </item>
