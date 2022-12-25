@@ -6,7 +6,9 @@ import { Container } from '@/components/Container'
 import { formatDate } from '@/lib/formatDate'
 import { Prose } from '@/components/Prose'
 
-export const blogLink = (path) => `https://www.paulashraf.com/blog/${path}`
+function blogLink(path) {
+  return `https://www.paulashraf.com/blog/${path}`
+}
 
 function ArrowLeftIcon(props) {
   return (
