@@ -6,6 +6,8 @@ import { Container } from '@/components/Container'
 import { formatDate } from '@/lib/formatDate'
 import { Prose } from '@/components/Prose'
 
+export const blogLink = (path) => `https://www.paulashraf.com/blog/${path}`
+
 function ArrowLeftIcon(props) {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
@@ -34,8 +36,51 @@ export function ArticleLayout({
   return (
     <>
       <Head>
-        <title>{meta.title}</title>
-        <meta name="description" content={meta.description} />
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/ico" href="/favicon.ico" />
+        <link key="canonical" rel="canonical" href={blogLink(meta.url)} />
+
+        {/* SEO tags */}
+        <title key="title">{meta.title}</title>
+        <meta key="description" name="description" content={meta.description} />
+        <meta key="keywords" name="keywords" content={meta.seoKeywords} />
+
+        {/* OG Tags */}
+        <meta key="og:type" property="og:type" content="article" />
+        <meta key="og:title" property="og:title" content={meta.title} />
+        <meta
+          key="og:description"
+          property="og:description"
+          content={meta.description}
+        />
+        <meta key="og:image" property="og:image" content={meta.logoUrl} />
+        <meta key="og:image:alt" property="og:image:alt" content={meta.title} />
+        <meta key="og:url" property="og:url" content={blogLink(meta.url)} />
+        <meta
+          key="og:site_name"
+          property="og:site_name"
+          content="Paul Ashraf Blog"
+        />
+        <meta property="article:section" content={meta.section} />
+        {meta.seoKeywords.split(',').map((tag) => (
+          <meta property="article:tag" content={tag} key={tag} />
+        ))}
+        <meta property="article:author" content={meta.author} />
+        <meta property="article:published_time" content={new Date(meta.date)} />
+
+        <meta key="twitter:title" name="twitter:title" content={meta.title} />
+        <meta
+          key="twitter:description"
+          name="twitter:description"
+          content={meta.description}
+        />
+        <meta key="twitter:image" name="twitter:image" content={meta.logoUrl} />
+        <meta
+          key="twitter:site"
+          name="twitter:site"
+          content={blogLink(meta.url)}
+        />
       </Head>
       <Container className="mt-16 lg:mt-32">
         <div className="xl:relative">
