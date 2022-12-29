@@ -3,10 +3,18 @@ import Image from 'next/future/image'
 
 import img1 from './1.png'
 import img2 from './2.png'
-import img3 from './3.webm'
+
+import vid3 from './3.webm'
+import vid3old from './3-old.mp4'
+
 import img4 from './4.png'
-import img5 from './5.webm'
-import img6 from './6.webm'
+
+import vid5 from './5.webm'
+import vid5old from './5-old.mp4'
+
+import vid6 from './6.webm'
+import vid6old from './6-old.mp4'
+
 import img7 from './7.png'
 
 export const meta = {
@@ -84,7 +92,10 @@ We can simply just use css [media queries](https://developer.mozilla.org/en-US/d
 
 And if we run this, it indeed works! It switches the elements precisely at `768px`.
 
-<video autoPlay loop muted playsInline src={img3} />
+<video autoPlay loop muted playsInline>
+  <source src={vid3} type="video/webm" />
+  <source src={vid3old} type="video/mp4" />
+</video>
 
 While this approach is simple and works natively, it has one simple issue. If we peek at the code sent by our server (we can do that from the network tab in our devtools, filter by `Doc` for clarity, and then click preview to get a look at the raw `html` sent), we find it clearly:
 
@@ -118,11 +129,17 @@ export const useIsMobile = () => {
 }
 ```
 
-<video autoPlay loop muted playsInline src={img5} />
+<video autoPlay loop muted playsInline>
+  <source src={vid5} type="video/webm" />
+  <source src={vid5old} type="video/mp4" />
+</video>
 
 As we can see it works just as before, but we solved the previous issue! Only one component was sent over the wire. However, as you can see, the desktop component was the one that was sent, not the mobile. Why do you think that happened? This will cause a nasty effect where the UI will load the desktop version at first until the DOM rehydrates, then it will show the correct component.
 
-<video autoPlay loop muted playsInline src={img6} />
+<video autoPlay loop muted playsInline>
+  <source src={vid6} type="video/webm" />
+  <source src={vid6old} type="video/mp4" />
+</video>
 
 I changed the styling of the desktop design to make it more noticeable. Even in this super trivial example, it is a little bit distracting. For large scale apps, like the one we are working on right now, it becomes super annoying and provides a really bad UX.
 
