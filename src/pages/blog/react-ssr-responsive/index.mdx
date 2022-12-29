@@ -217,4 +217,6 @@ And thats it! We now covered more than **99.9%** of our users (looking at you iP
 
 There is some more complicated solutions I did not cover here, like: [@artsy/fresnel](https://github.com/artsy/fresnel). Be ware it is not compatible with React 18.
 
+I would recommend approach 1 for most people as it was the most simple one that just works without having to rely on JS or user agents or do some guessing work. It is native and it just works. But if you want optimize more, and/or maybe you _actually want_ to consume a reactive value in your JS, I think we found a pretty good solution.
+
 I think the use case of combining a `window.matchMedia` JS approach accompanied with providing an initial value based on the user agent provides a super robust way to rended a modern responsive SSR app.
