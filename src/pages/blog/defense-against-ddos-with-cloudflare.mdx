@@ -1,0 +1,70 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const meta = {
+  author: 'Paul Ashraf',
+  date: '2023-08-12',
+  title:
+    'Defending Against DDoS Attacks: A Comprehensive Cloudflare and Nginx Approach',
+  description:
+    'Learn how to strengthen your online services against DDoS attacks using advanced security measures with Cloudflare and Nginx.',
+  section: 'technology',
+  seoKeywords:
+    'DDoS attacks, security, Cloudflare, Nginx, cyber defense, online services, mitigation strategies',
+  url: 'defense-against-ddos-with-cloudflare',
+  logoUrl: 'https://pbs.twimg.com/media/EAwZnZ5WwAMiaA2.png:large',
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+## Introduction
+
+In today's interconnected digital landscape, online services have become integral to businesses, but they also attract unwanted attention in the form of cyberattacks. Among these, Distributed Denial of Service (DDoS) attacks stand out as a major threat. In a recent encounter with a DDoS attack, our team faced a formidable challenge but emerged stronger by leveraging Cloudflare and Nginx's advanced security features. In this blog post, we'll delve into our approach to fortifying our services against DDoS attacks and share our recommendations for others to adopt similar strategies.
+
+## Understanding DDoS Attacks
+
+DDoS attacks are orchestrated attempts to disrupt the availability of a service by overwhelming it with a flood of traffic. These attacks can cripple servers, slow down websites, and result in significant financial losses. To defend against DDoS attacks, a multi-layered approach is essential, involving both network-level and application-level measures.
+
+## Under Attack Mode!
+
+Initially, we responded to the DDoS attack by activating Cloudflare's "Under Attack Mode," a feature designed to mitigate sudden spikes in malicious traffic. While this mode provided a basic layer of protection, we quickly realized that the attackers had evolved their tactics and were adept at circumventing this defense. Their ability to bypass the "Under Attack Mode" highlighted the need for a more robust and adaptive strategy to effectively thwart the evolving threat landscape. This realization prompted us to explore advanced settings and configurations within Cloudflare, along with complementary adjustments in our Nginx server setup, ultimately leading us to the comprehensive approach detailed in this article.
+
+## Leveraging Cloudflare's Defense Mechanisms
+
+_1. Enhanced DDoS Sensitivity and Blocking:_
+Our first line of defense was Cloudflare's DDoS settings. By setting the sensitivity level to 'high' and default action to 'block', we ensured that potential threats were promptly identified and mitigated before causing significant disruption.
+
+_2. Captcha Challenge Frequency:_
+Recognizing that adaptive attackers can overcome initial challenges, we adjusted the captcha challenge frequency to every 5 minutes, effectively raising the barrier for sustained malicious activities.
+
+_3. Geo-Blocking:_
+After witnessing attackers shift to different regions, we implemented a geo-blocking strategy. However, instead of targeting individual countries, we restricted access to non-Egyptian requests. This approach prevented attackers from simply changing their location to evade restrictions.
+
+_4. Aggressive Rate Limiting and Bot Fight Mode:_
+To further weed out suspicious traffic, we deployed an aggressive rate limiting rule, putting strict constraints on the number of requests from a single IP. Activating Cloudflare's 'Bot Fight Mode' also bolstered our defenses against automated attacks, adding an extra layer of security.
+
+## Strengthening Nginx's Resilience
+
+_1. Reducing Timeout:_
+A critical element in handling DDoS attacks is reducing the timeout period. By setting the timeout to just 5 seconds, we minimized the window of vulnerability, ensuring that resources were not tied up by slow or malicious requests.
+
+_2. Refined Rate Limiting:_
+We fine-tuned Nginx's rate limiting mechanism to 20 requests per minute per IP. This judicious limit effectively balanced legitimate user traffic while thwarting excessive or malicious requests.
+
+_3. Connection Limit per IP:_
+To prevent a single IP from monopolizing server resources, we enforced a connection limit of 10. This safeguarded our server's capacity while discouraging attackers from overloading it with open connections.
+
+In an era where cyber threats are increasingly sophisticated and relentless, leveraging specialized tools like Cloudflare can significantly enhance your defense capabilities, especially for smaller companies with limited engineering resources. While managing security measures solely through self-hosted solutions like Nginx is possible, it often requires substantial expertise, ongoing maintenance, and timely updates to stay ahead of emerging threats. Cloudflare and similar products offer a centralized platform that integrates cutting-edge security features, threat intelligence, and traffic filtering mechanisms, all backed by a dedicated team of experts. By relying on these services, smaller businesses can level the playing field, safeguarding their online presence without straining internal resources. This approach not only bolsters security but also allows your team to focus on core business functions, confident in the protection provided by industry-leading security solutions.
+
+## Conclusion and Recommendations
+
+In the face of escalating DDoS threats, our proactive response fortified our services against potential disruptions. The combination of Cloudflare's advanced security features and Nginx's resilient configuration proved instrumental in safeguarding our online presence. Based on our experience, we offer the following recommendations to fortify your services against DDoS attacks:
+
+- Configure Cloudflare's DDoS settings with heightened sensitivity and stringent blocking measures.
+- Adjust captcha challenge frequency to impede persistent attackers.
+- Utilize geo-blocking to restrict access from specific regions while avoiding the cat-and-mouse game of changing locations.
+- Implement aggressive rate limiting and activate bot fight mode to identify and mitigate automated threats.
+- Fine-tune Nginx's rate limiting and connection limits to strike a balance between user experience and security.
+
+By adopting these measures, you can bolster your defenses and enhance your service's resilience against DDoS attacks. Remember, cyber threats are ever-evolving, and a multi-pronged defense strategy is the key to maintaining a secure digital presence.
+
+_Disclaimer: The tactics and configurations mentioned in this blog post are based on our specific experience and may need to be adapted to individual circumstances._
