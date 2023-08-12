@@ -21,18 +21,16 @@ There is a nice trick within the amazing React Query library that is not well-kn
 
 ```tsx
 function MyApp({ Component, pageProps }: AppProps) {
-
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(() => new QueryClient())
 
   return (
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-            <Component {...pageProps} />
-        </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </div>
-  );
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Component {...pageProps} />
+      </Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
 }
 ```
 
@@ -42,19 +40,17 @@ For the rest of the guide I will only implement the `MutationCache` but the exac
 
 ```tsx
 function MyApp({ Component, pageProps }: AppProps) {
+  const mutationCache = new MutationCache()
+  const [queryClient] = useState(() => new QueryClient({ mutationCache }))
 
-  const mutationCache = new MutationCache();
-  const [queryClient] = useState(() => new QueryClient({ mutationCache }));
-
-   return (
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-            <Component {...pageProps} />
-        </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </div>
-  );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Component {...pageProps} />
+      </Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
 }
 ```
 
@@ -62,25 +58,23 @@ The `MutationCache` constructor takes a lot of options, the most relevant one fo
 
 ```tsx
 function MyApp({ Component, pageProps }: AppProps) {
-
   const mutationCache = new MutationCache({
     onError: (error) => {
       // any error handling code...
-      console.error(error);
-    }
-  });
+      console.error(error)
+    },
+  })
 
-  const [queryClient] = useState(() => new QueryClient({ mutationCache }));
+  const [queryClient] = useState(() => new QueryClient({ mutationCache }))
 
-   return (
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-            <Component {...pageProps} />
-        </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </div>
-  );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Component {...pageProps} />
+      </Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
 }
 ```
 
@@ -93,27 +87,25 @@ Don't worry! There is an elegant solution for this problem. The `onError` of the
 
 ```tsx
 function MyApp({ Component, pageProps }: AppProps) {
-
   const mutationCache = new MutationCache({
     onError: (error, _variables, _context, mutation) => {
       // If this mutation has an onError defined, skip this
-      if (mutation.options.onError) return;
+      if (mutation.options.onError) return
 
       // any error handling code...
-      console.error(error);
-    }
-  });
+      console.error(error)
+    },
+  })
 
-  const [queryClient] = useState(() => new QueryClient({ mutationCache }));
+  const [queryClient] = useState(() => new QueryClient({ mutationCache }))
 
-   return (
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-            <Component {...pageProps} />
-        </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </div>
-  );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Component {...pageProps} />
+      </Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
 }
 ```
