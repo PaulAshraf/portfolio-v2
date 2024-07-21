@@ -2,7 +2,7 @@ import Image from 'next/future/image'
 
 import image1 from '@/images/photos/feynman.jpeg'
 import image2 from '@/images/photos/godfatherbw.jpeg'
-import image3 from '@/images/photos/paul.jpeg'
+import image3 from '@/images/photos/paul2023bnw.jpeg'
 import image4 from '@/images/photos/steve2.jpeg'
 import image5 from '@/images/photos/bcs2.jpeg'
 

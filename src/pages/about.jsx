@@ -31,10 +31,9 @@ export default function About() {
             </h1>
             <div className="mt-6 space-y-7 text-base text-slate-600 dark:text-slate-400">
               <p>
-                I’m Paul, a software engineer at Zammit and an aspiring film
-                critic based in Cairo. Join me on my journey leading Zammit to
-                becoming the major e-commerce platform in the Middle East, while
-                watching pretty good movies too along the ride.
+                Im Paul, a software engineer and an aspiring film critic based
+                in Cairo. Join me on my journey discussing interesting tech,
+                while watching pretty good movies too along the ride.
               </p>
             </div>
           </div>

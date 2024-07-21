@@ -5,11 +5,19 @@ import { Button } from '@/components/Button'
 import coursera from '@/images/logos/coursera.png'
 import crowd from '@/images/logos/crowd2.png'
 import zammit from '@/images/logos/zammit.png'
+import procore from '@/images/logos/procore.png'
 import inesc from '@/images/logos/inesc2.png'
 import callvita from '@/images/logos/callvita.png'
 
 function Resume() {
   let resume = [
+    {
+      company: 'Procore',
+      title: 'Senior Software Engineer',
+      logo: procore,
+      start: 'Feb 2024',
+      end: 'Present',
+    },
     {
       company: 'Zammit',
       title: 'Lead Software Engineer',

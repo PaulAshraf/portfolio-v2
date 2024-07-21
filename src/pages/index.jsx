@@ -26,10 +26,9 @@ export default function Home({ articles }) {
             Software Engineer by day, and a Film Critic by night.
           </h1>
           <p className="mt-6 text-base text-slate-600 dark:text-slate-400">
-            I’m Paul, a software engineer at Zammit and an aspiring film critic
-            based in Cairo. Join me on my journey leading Zammit to becoming the
-            major e-commerce platform in the Middle East, while watching pretty
-            good movies too along the ride.
+            Im Paul, a software engineer and an aspiring film critic based in
+            Cairo. Join me on my journey discussing interesting tech, while
+            watching pretty good movies too along the ride.
           </p>
           <div className="mt-6 flex gap-6">
             <SocialLink
