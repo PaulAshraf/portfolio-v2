@@ -23,7 +23,7 @@ function Resume() {
       title: 'Lead Software Engineer',
       logo: zammit,
       start: 'Mar 2022',
-      end: 'Present',
+      end: 'Feb 2024',
     },
     {
       company: 'Zammit',

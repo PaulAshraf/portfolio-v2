@@ -4,7 +4,7 @@ import { links } from '@/lib/links'
 import { Container } from '@/components/Container'
 import Head from '@/components/Head'
 import { TwitterIcon, GitHubIcon, LinkedInIcon } from '@/components/SocialIcons'
-import portraitImage from '@/images/porto.jpeg'
+import portraitImage from '@/images/avatar.jpeg'
 import { SocialLink } from '../components/SocialLink'
 import { AlternateMailIcon as MailIcon } from '@/components/icons'
 
