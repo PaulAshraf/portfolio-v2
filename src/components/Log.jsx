@@ -1,17 +1,12 @@
 import Link from 'next/link'
 
-// Shared building blocks. Every design styles these same elements; see
-// src/styles/designs.css.
+// Page building blocks, styled in src/styles/site.css.
 
-// A labelled section. `stack` puts the label on its own line so the children
-// (usually Rows) can use the full width, including their own meta column.
-export function Section({ label, stack = false, className, children }) {
+// A section with an optional small label above its content.
+export function Section({ label, className, children }) {
   return (
-    <section
-      className={['sec', className].filter(Boolean).join(' ')}
-      data-stack={stack ? '' : undefined}
-    >
-      <h2 className="sec-label">{label}</h2>
+    <section className={['sec', className].filter(Boolean).join(' ')}>
+      {label && <h2 className="sec-label">{label}</h2>}
       <div className="sec-body">{children}</div>
     </section>
   )
@@ -58,7 +53,6 @@ export function Entry({ article, label }) {
         <Link href={`/blog/${article.slug}`}>{article.title}</Link>
       </h3>
       <p className="entry-desc">{article.description}</p>
-      <span className="entry-tag">{article.section}</span>
     </Row>
   )
 }

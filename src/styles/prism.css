@@ -1,9 +1,9 @@
-/* Token colors come from the active design (see src/styles/designs). */
+/* Token colors come from the theme tokens in src/styles/site.css. */
 
 code[class*='language-'],
 pre[class*='language-'] {
   color: var(--text);
-  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-family: var(--font-code);
   text-align: left;
   white-space: pre;
   word-spacing: normal;
@@ -60,24 +60,4 @@ pre[class*='language-'] {
 
 .token.deleted {
   text-decoration: line-through;
-}
-
-/* Plaintext: weight and grey only. */
-[data-design='plain'] .token.keyword,
-[data-design='plain'] .token.tag,
-[data-design='plain'] .token.selector,
-[data-design='plain'] .token.atrule {
-  font-weight: 600;
-}
-
-[data-design='plain'] .token.string,
-[data-design='plain'] .token.char,
-[data-design='plain'] .token.attr-value {
-  text-decoration: underline dotted var(--muted);
-  text-underline-offset: 3px;
-}
-
-[data-design='plain'] .token.function,
-[data-design='plain'] .token.class-name {
-  font-weight: 400;
 }

@@ -1,58 +1,78 @@
-import Link from 'next/link'
+import Image from 'next/image'
 
 import Head from '@/components/Head'
 import { EntryList, Section } from '@/components/Log'
-import { TextLinks } from '@/components/TextLinks'
 
 import { generateRssFeed } from '@/lib/generateRssFeed'
 import { getAllArticles, TECH_SECTIONS } from '@/lib/getAllArticles'
-import { goal } from '@/lib/journey'
-import { links } from '@/lib/links'
-import { resume } from '@/lib/resume'
+import { links, textLinks } from '@/lib/links'
+import { work } from '@/lib/resume'
+
+const socials = textLinks.filter((link) =>
+  ['github', 'x', 'linkedin'].includes(link.label)
+)
 
 export default function Home({ articles }) {
   return (
     <>
       <Head title="Home" />
-      <Section label="About">
+      <Section>
         <h1 className="title">
-          AI-native engineer, on the road to AI research.
+          AI-native engineer, on the road to AI safety research.
         </h1>
         <p className="text">
-          I&apos;m Paul, a software engineer who builds by driving AI agents
-          every day. I&apos;m now working toward technical AI safety research,
-          and this blog is where I write up what I learn, build, and break along
-          the way.
+          I&apos;m Paul, a software engineer. I believe AI safety research is
+          one of the most important problems humanity can work on. Whether we
+          solve it could be the difference between abundance, even utopia, and
+          catastrophic collapse.
         </p>
-        <TextLinks include={['github', 'x', 'linkedin']} />
-      </Section>
-
-      <Section label="Log" stack>
-        <EntryList articles={articles} />
-      </Section>
-
-      <Section label="Goal">
-        <p className="goal">{goal.text}</p>
-        <p className="more">
-          <Link href="/journey">→ journey</Link>
+        <p className="text">
+          I want to bring my engineering experience to this field and do real,
+          high-quality research. This blog is where I share what I learn, and I
+          hope it helps others who think the same way find their way into the
+          field too.
         </p>
-      </Section>
-
-      <Section label="Work">
-        <ul className="work">
-          {resume.map((role) => (
-            <li key={`${role.company}-${role.title}`}>
-              <span className="work-role">
-                {role.company} — {role.title}
-              </span>
-              <span className="work-years">
-                {role.start} – {role.end}
-              </span>
+        <ul className="textlinks">
+          {socials.map((link) => (
+            <li key={link.label}>
+              <a href={link.href}>{link.label}</a>
             </li>
           ))}
         </ul>
+      </Section>
+
+      <Section label="Log">
+        <EntryList articles={articles} />
+      </Section>
+
+      <Section label="Work">
+        <ol className="work">
+          {work.map((company) => (
+            <li key={company.company} className="work-company">
+              <Image
+                src={company.logo}
+                alt={`${company.company} logo`}
+                className="work-logo"
+                sizes="48px"
+              />
+              <div>
+                <h3 className="work-name">{company.company}</h3>
+                <ul className="work-roles">
+                  {company.roles.map((role) => (
+                    <li key={role.title} className="work-role">
+                      <span className="work-title">{role.title}</span>
+                      <span className="work-years">
+                        {role.start} – {role.end}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))}
+        </ol>
         <p className="more">
-          <a href="/paul_ashraf_cv.pdf">→ cv.pdf</a>
+          <a href="/paul_ashraf_cv.pdf">→ Download CV</a>
         </p>
       </Section>
 

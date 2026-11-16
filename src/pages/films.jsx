@@ -6,13 +6,14 @@ export default function Films({ articles }) {
   return (
     <>
       <Head title="Films" />
-      <Section label="Films">
+      <Section>
         <h1 className="title">Films</h1>
-        <p className="goal">
-          A couple of reviews from before this became a tech blog.
+        <p className="text">
+          I&apos;m also a movie nerd, and every now and then I write a review
+          here.
         </p>
       </Section>
-      <Section label="Reviews" stack>
+      <Section label="Reviews">
         <EntryList articles={articles} label="Film" />
       </Section>
     </>

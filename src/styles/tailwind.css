@@ -1,7 +1,4 @@
 @import 'tailwindcss/base';
-@import './designs/base.css';
-@import './designs/margin.css';
-@import './designs/plain.css';
-@import './designs/axis.css';
+@import './site.css';
 @import './prism.css';
 @import 'tailwindcss/utilities';

@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 import Head from '@/components/Head'
 import { EntryList, Section } from '@/components/Log'
 import { getAllArticles, TECH_SECTIONS } from '@/lib/getAllArticles'
@@ -20,21 +18,13 @@ export default function Blog({ articles }) {
       <Section label="Index">
         <h1 className="title">Log</h1>
         <p className="text">
-          Engineering write-ups, experiments, and progress reports from my move
-          into AI research. The plan lives on{' '}
-          <Link className="link" href="/journey">
-            journey
-          </Link>
-          ; movie reviews live under{' '}
-          <Link className="link" href="/films">
-            films
-          </Link>
-          .
+          Engineering write-ups, experiments, and what I&apos;m learning on the
+          way into AI safety research.
         </p>
       </Section>
 
       {groupByYear(articles).map(([year, posts]) => (
-        <Section key={year} label={year} stack className="sec-year">
+        <Section key={year} label={year}>
           <EntryList articles={posts} />
         </Section>
       ))}

@@ -1,0 +1,510 @@
+/*
+ * Two type sizes, enormous and small. No rules, borders or boxes.
+ * Bricolage Grotesque for display, Inter for text, IBM Plex Mono for code.
+ */
+
+:root {
+  --bg: #f3f4f6;
+  --text: #0b0d12;
+  --muted: #5b616e;
+  --rule: #d5d8df;
+  --accent: #2540e8;
+  --code-bg: #e9ebef;
+  --tile: #ffffff;
+  --tok-keyword: #2540e8;
+  --tok-string: #0f7a5a;
+  --tok-number: #a14a00;
+  --display: clamp(2.25rem, 6.5vw, 4.5rem);
+  --column: 600px;
+}
+
+.dark {
+  --bg: #0b0d12;
+  --text: #eceef3;
+  --muted: #959baa;
+  --rule: #252935;
+  --accent: #8fa0ff;
+  --code-bg: #141722;
+  --tile: #eceef3;
+  --tok-keyword: #8fa0ff;
+  --tok-string: #6fd3b0;
+  --tok-number: #f0a868;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* next/font variables live on .site, so the font tokens are set here. */
+.site {
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-inter), sans-serif;
+  --font-code: var(--font-plex-mono), ui-monospace, monospace;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wrap {
+  max-width: 1040px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* Header */
+.hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding-top: 40px;
+  margin-bottom: 120px;
+}
+
+.hdr-name {
+  font-weight: 500;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 24px;
+}
+
+.nav-link {
+  color: var(--muted);
+}
+
+.nav-link:hover,
+.nav-link[aria-current='page'] {
+  color: var(--text);
+}
+
+.toggle {
+  cursor: pointer;
+  display: block;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--text);
+  background: none;
+}
+
+.dark .toggle {
+  background: var(--text);
+}
+
+/* Footer */
+.ftr {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 160px;
+  padding-bottom: 48px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.ftr-links,
+.textlinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.ftr-links a:hover {
+  color: var(--text);
+}
+
+/* Sections: small muted label above, 120px apart */
+.sec + .sec {
+  margin-top: 120px;
+}
+
+.sec-label,
+.row-meta {
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.row-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.sec-body > :not(.title, .row, .work) {
+  max-width: var(--column);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--display);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  max-width: 900px;
+}
+
+.title + * {
+  margin-top: 40px;
+}
+
+.text + .text {
+  margin-top: 16px;
+}
+
+.textlinks {
+  gap: 4px 24px;
+  margin-top: 24px;
+}
+
+.textlinks a,
+.back {
+  color: var(--muted);
+}
+
+.textlinks a:hover,
+.back:hover {
+  color: var(--accent);
+}
+
+.link,
+.prose a {
+  color: var(--accent);
+}
+
+.link:hover,
+.prose a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.empty {
+  color: var(--muted);
+}
+
+/* Entries */
+.row + .row {
+  margin-top: 40px;
+}
+
+.entry-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  max-width: 760px;
+}
+
+.entry-title a:hover {
+  color: var(--accent);
+}
+
+.entry-desc {
+  margin-top: 8px;
+  max-width: var(--column);
+  color: var(--muted);
+}
+
+/* Work: one block per company, roles listed under it */
+.work {
+  max-width: 720px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work-company {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  column-gap: 20px;
+  align-items: start;
+}
+
+.work-company + .work-company {
+  margin-top: 36px;
+}
+
+.work-logo {
+  width: 48px;
+  height: 48px;
+  padding: 7px;
+  border-radius: 12px;
+  background: var(--tile);
+  object-fit: contain;
+}
+
+.work-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.work-roles {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work-role {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.work-role + .work-role {
+  margin-top: 2px;
+}
+
+.work-title {
+  color: var(--text);
+}
+
+.work-years {
+  flex: none;
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.more {
+  margin-top: 32px;
+}
+
+.more a {
+  color: var(--muted);
+}
+
+.more a:hover {
+  color: var(--accent);
+}
+
+/* About: portrait right of the bio */
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 16px 64px;
+}
+
+.about > .sec-label {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+}
+
+.about > .sec-body {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.about .title {
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+}
+
+.portrait {
+  display: block;
+  width: 280px;
+  height: 280px;
+  object-fit: cover;
+}
+
+/* Article */
+.article-head {
+  display: flex;
+  flex-direction: column;
+}
+
+.article-head .sec-label {
+  order: 1;
+  display: flex;
+  gap: 12px;
+  text-transform: capitalize;
+}
+
+.article-head .sec-body {
+  display: contents;
+}
+
+.back {
+  order: 0;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.article-head .title {
+  order: 2;
+  font-size: min(var(--display), 4rem);
+}
+
+.prose {
+  margin-top: 72px;
+  max-width: var(--column);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.prose > * + * {
+  margin-top: 1.2em;
+}
+
+.prose h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+  margin-top: 2.4em;
+}
+
+.prose h3 {
+  font-weight: 500;
+  margin-top: 2em;
+}
+
+.prose blockquote {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.prose hr {
+  border: 0;
+  height: 0;
+  margin: 48px 0;
+}
+
+.prose :where(ul) {
+  list-style: disc;
+}
+
+.prose :where(ol) {
+  list-style: decimal;
+}
+
+.prose :where(ul, ol) {
+  padding-left: 1.5em;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.prose :where(th, td) {
+  padding: 0.4em 0.6em 0.4em 0;
+  text-align: left;
+}
+
+.prose :not(pre) > code {
+  font-family: var(--font-code);
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+}
+
+.prose pre {
+  overflow-x: auto;
+  background: var(--code-bg);
+  padding: 24px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.prose :is(img, video) {
+  max-width: none;
+  width: min(976px, calc(100vw - 64px));
+  height: auto;
+}
+
+.discussion {
+  margin-top: 120px;
+}
+
+@media (max-width: 639px) {
+  .wrap {
+    padding: 0 16px;
+  }
+
+  .hdr {
+    margin-bottom: 72px;
+  }
+
+  .sec + .sec {
+    margin-top: 72px;
+  }
+
+  .entry-title {
+    font-size: 22px;
+  }
+
+  .work-company {
+    grid-template-columns: 40px minmax(0, 1fr);
+    column-gap: 14px;
+  }
+
+  .work-logo {
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+  }
+
+  .work-role {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .work-role + .work-role {
+    margin-top: 8px;
+  }
+
+  .about {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about > .sec-body {
+    grid-row: 2;
+  }
+
+  .portrait {
+    width: 160px;
+    height: 160px;
+  }
+
+  .prose :is(img, video) {
+    width: 100%;
+  }
+}

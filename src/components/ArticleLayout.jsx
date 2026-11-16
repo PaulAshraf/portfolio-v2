@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Giscus from '@giscus/react'
 
-import { useIsDark } from '@/hooks/useHtmlAttribute'
+import { useIsDark } from '@/hooks/useIsDark'
 
 function blogLink(path) {
   return `https://www.paulashraf.com/blog/${path}`

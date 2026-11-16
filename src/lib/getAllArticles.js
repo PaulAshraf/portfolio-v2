@@ -2,7 +2,7 @@ import glob from 'fast-glob'
 import * as path from 'path'
 
 // Every post's `meta.section` is one of:
-//   research   -> the Engineer -> AI Researcher journey (/journey, also in /blog)
+//   research   -> AI safety research posts (/blog)
 //   technology -> general engineering posts (/blog)
 //   film       -> movie reviews (/films only)
 

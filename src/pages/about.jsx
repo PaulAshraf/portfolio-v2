@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import Head from '@/components/Head'
 import { Section } from '@/components/Log'
-import { TextLinks } from '@/components/TextLinks'
+import { textLinks } from '@/lib/links'
 import portraitImage from '@/images/avatar.jpeg'
 
 export default function About() {
@@ -12,7 +12,6 @@ export default function About() {
       <Head title="About" />
       <section className="sec about">
         <div className="sec-label">
-          <span className="about-label">About</span>
           <Image
             src={portraitImage}
             alt="Portrait of Paul Ashraf"
@@ -23,7 +22,8 @@ export default function About() {
         </div>
         <div className="sec-body">
           <h1 className="title">
-            I’m Paul Ashraf. An AI-native engineer becoming an AI researcher.
+            I’m Paul Ashraf. An AI-native engineer moving into AI safety
+            research.
           </h1>
           <p className="text">
             I&apos;ve spent my career shipping production software, and these
@@ -34,12 +34,11 @@ export default function About() {
           <p className="text">
             So I&apos;m moving into technical AI safety research. I&apos;m
             learning ML at implementation depth, replicating published results,
-            and running my own experiments, all in public. You can follow along
-            on the{' '}
-            <Link className="link" href="/journey">
-              journey
-            </Link>{' '}
-            page.
+            and running my own experiments, all in public on the{' '}
+            <Link className="link" href="/blog">
+              blog
+            </Link>
+            .
           </p>
           <p className="text">
             I still love movies, and the few reviews I&apos;ve written live
@@ -52,7 +51,13 @@ export default function About() {
         </div>
       </section>
       <Section label="Elsewhere">
-        <TextLinks />
+        <ul className="textlinks">
+          {textLinks.map((link) => (
+            <li key={link.label}>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
       </Section>
     </>
   )

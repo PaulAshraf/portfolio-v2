@@ -1,7 +1,5 @@
 import { Head, Html, Main, NextScript } from 'next/document'
 
-import { DEFAULT_DESIGN, designScript } from '@/lib/designs'
-
 const modeScript = `
   let darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -39,10 +37,9 @@ const modeScript = `
 
 export default function Document() {
   return (
-    <Html className="antialiased" lang="en" data-design={DEFAULT_DESIGN}>
+    <Html className="antialiased" lang="en">
       <Head>
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
-        <script dangerouslySetInnerHTML={{ __html: designScript }} />
         <link
           rel="alternate"
           type="application/rss+xml"
