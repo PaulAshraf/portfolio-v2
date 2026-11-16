@@ -15,7 +15,7 @@ function Resume() {
       company: 'Procore',
       title: 'Staff Software Engineer',
       logo: procore,
-      start: '2025',
+      start: 'Mar 2025',
       end: 'Present',
     },
     {
@@ -23,7 +23,7 @@ function Resume() {
       title: 'Senior Software Engineer',
       logo: procore,
       start: 'Feb 2024',
-      end: '2025',
+      end: 'Mar 2025',
     },
     {
       company: 'Zammit',
