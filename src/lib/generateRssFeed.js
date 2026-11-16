@@ -2,10 +2,10 @@ import ReactDOMServer from 'react-dom/server'
 import { Feed } from 'feed'
 import { mkdir, writeFile } from 'fs/promises'
 
-import { getAllArticles } from './getAllArticles'
+import { getAllArticles, TECH_SECTIONS } from './getAllArticles'
 
 export async function generateRssFeed() {
-  let articles = await getAllArticles()
+  let articles = await getAllArticles({ sections: TECH_SECTIONS })
   let siteUrl = process.env.NEXT_PUBLIC_SITE_URL
   let author = {
     name: 'Paul Ashraf',
@@ -14,7 +14,8 @@ export async function generateRssFeed() {
 
   let feed = new Feed({
     title: author.name,
-    description: 'Paul Ashraf Software Finds and Movie Reviews',
+    description:
+      'Paul Ashraf on AI-native engineering and the road to AI research',
     author,
     id: siteUrl,
     link: siteUrl,

@@ -1,5 +1,5 @@
 import { BriefcaseIcon, ArrowDownIcon } from '@/components/icons'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { Button } from '@/components/Button'
 
 import coursera from '@/images/logos/coursera.png'
@@ -13,10 +13,17 @@ function Resume() {
   let resume = [
     {
       company: 'Procore',
+      title: 'Staff Software Engineer',
+      logo: procore,
+      start: '2025',
+      end: 'Present',
+    },
+    {
+      company: 'Procore',
       title: 'Senior Software Engineer',
       logo: procore,
       start: 'Feb 2024',
-      end: 'Present',
+      end: '2025',
     },
     {
       company: 'Zammit',

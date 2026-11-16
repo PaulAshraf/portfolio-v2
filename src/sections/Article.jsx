@@ -1,7 +1,7 @@
 import { Card } from '@/components/Card'
 import { formatDate } from '@/lib/formatDate'
 
-function Article({ article, mini }) {
+function Article({ article, mini, cta = 'Read article' }) {
   return mini ? (
     <Card as="article">
       <Card.Title href={`/blog/${article.slug}`}>{article.title}</Card.Title>
@@ -9,7 +9,7 @@ function Article({ article, mini }) {
         {formatDate(article.date)}
       </Card.Eyebrow>
       <Card.Description>{article.description}</Card.Description>
-      <Card.Cta>Read article</Card.Cta>
+      <Card.Cta>{cta}</Card.Cta>
     </Card>
   ) : (
     <article className="md:grid md:grid-cols-4 md:items-baseline">
@@ -24,7 +24,7 @@ function Article({ article, mini }) {
           {formatDate(article.date)}
         </Card.Eyebrow>
         <Card.Description>{article.description}</Card.Description>
-        <Card.Cta>Read article</Card.Cta>
+        <Card.Cta>{cta}</Card.Cta>
       </Card>
       <Card.Eyebrow
         as="time"

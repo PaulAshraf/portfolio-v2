@@ -1,4 +1,5 @@
-import Image from 'next/future/image'
+import Image from 'next/image'
+import Link from 'next/link'
 import { links } from '@/lib/links'
 
 import { Container } from '@/components/Container'
@@ -26,14 +27,38 @@ export default function About() {
           </div>
           <div className="lg:order-first lg:row-span-2">
             <h1 className="text-4xl font-bold tracking-tight text-slate-800 dark:text-slate-100 sm:text-5xl">
-              I’m Paul Ashraf. A Software Engineer by day, and a Film Critic by
-              night.
+              I’m Paul Ashraf. An AI-native engineer becoming an AI researcher.
             </h1>
             <div className="mt-6 space-y-7 text-base text-slate-600 dark:text-slate-400">
               <p>
-                Im Paul, a software engineer and an aspiring film critic based
-                in Cairo. Join me on my journey discussing interesting tech,
-                while watching pretty good movies too along the ride.
+                I&apos;ve spent my career shipping production software, and
+                these days most of that work runs through AI agents. Using these
+                systems every day is a big part of why I want to understand how
+                they work, and how to make them safe.
+              </p>
+              <p>
+                So I&apos;m moving into technical AI safety research. I&apos;m
+                learning ML at implementation depth, replicating published
+                results, and running my own experiments, all in public. You can
+                follow along on the{' '}
+                <Link
+                  href="/journey"
+                  className="font-medium text-indigo-500 hover:text-indigo-600 dark:text-indigo-400"
+                >
+                  Journey
+                </Link>{' '}
+                page.
+              </p>
+              <p>
+                I still love movies, and the few reviews I&apos;ve written live
+                under{' '}
+                <Link
+                  href="/films"
+                  className="font-medium text-indigo-500 hover:text-indigo-600 dark:text-indigo-400"
+                >
+                  Films
+                </Link>
+                .
               </p>
             </div>
           </div>
