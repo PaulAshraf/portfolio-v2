@@ -1,4 +1,4 @@
-import { Bricolage_Grotesque, IBM_Plex_Mono, Inter } from 'next/font/google'
+import { Bricolage_Grotesque, IBM_Plex_Mono } from 'next/font/google'
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
@@ -13,19 +13,15 @@ const plexMono = IBM_Plex_Mono({
   variable: '--font-plex-mono',
 })
 
+// Variable font: the optical size axis gives text sizes a calmer, more open
+// cut than the display sizes, so one family covers headlines and body.
 const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
-  weight: ['700'],
+  axes: ['opsz'],
   variable: '--font-bricolage',
 })
 
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-inter',
-})
-
-const fontVariables = [plexMono, bricolage, inter]
+const fontVariables = [plexMono, bricolage]
   .map((font) => font.variable)
   .join(' ')
 

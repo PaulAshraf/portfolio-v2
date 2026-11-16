@@ -1,6 +1,7 @@
 /*
- * Two type sizes, enormous and small. No rules, borders or boxes.
- * Bricolage Grotesque for display, Inter for text, IBM Plex Mono for code.
+ * Enormous headlines over generous text. No rules, borders or boxes.
+ * Bricolage Grotesque for display and text (its optical size axis adapts the
+ * cut), IBM Plex Mono for labels, dates and code.
  */
 
 :root {
@@ -44,13 +45,16 @@ body {
 
 /* next/font variables live on .site, so the font tokens are set here. */
 .site {
-  --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-inter), sans-serif;
+  --font-body: var(--font-bricolage), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
   --font-code: var(--font-plex-mono), ui-monospace, monospace;
   font-family: var(--font-body);
-  font-size: 15px;
+  font-optical-sizing: auto;
+  font-size: 18px;
   line-height: 1.55;
   color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
@@ -82,7 +86,9 @@ a {
 }
 
 .hdr-name {
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.01em;
 }
 
 .nav {
@@ -94,6 +100,7 @@ a {
 
 .nav-link {
   color: var(--muted);
+  font-weight: 500;
 }
 
 .nav-link:hover,
@@ -125,8 +132,8 @@ a {
   margin-top: 160px;
   padding-bottom: 48px;
   color: var(--muted);
-  font-size: 12px;
-  font-weight: 500;
+  font-family: var(--font-code);
+  font-size: 13px;
 }
 
 .ftr-links,
@@ -146,18 +153,38 @@ a {
 }
 
 .sec-label,
-.row-meta {
-  font: inherit;
-  font-size: 12px;
+.row-meta,
+.back {
+  font-family: var(--font-code);
+  font-size: 13px;
   font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 16px;
+}
+
+.sec-label {
+  margin-bottom: 24px;
+}
+
+.sec-label::before {
+  content: '— ';
+  color: var(--accent);
 }
 
 .row-meta {
   display: flex;
-  gap: 12px;
-  margin-bottom: 4px;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.entry-no {
+  color: var(--accent);
+}
+
+.article-head .sec-label::before,
+.about > .sec-label::before {
+  content: none;
 }
 
 .sec-body > :not(.title, .row, .work) {
@@ -169,7 +196,7 @@ a {
   font-weight: 700;
   font-size: var(--display);
   line-height: 0.98;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   max-width: 900px;
 }
 
@@ -177,13 +204,19 @@ a {
   margin-top: 40px;
 }
 
+.sec:first-child .text {
+  font-size: 21px;
+  line-height: 1.5;
+}
+
 .text + .text {
-  margin-top: 16px;
+  margin-top: 18px;
 }
 
 .textlinks {
-  gap: 4px 24px;
-  margin-top: 24px;
+  gap: 4px 28px;
+  margin-top: 32px;
+  font-weight: 500;
 }
 
 .textlinks a,
@@ -213,15 +246,15 @@ a {
 
 /* Entries */
 .row + .row {
-  margin-top: 40px;
+  margin-top: 56px;
 }
 
 .entry-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 28px;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   max-width: 760px;
 }
 
@@ -230,7 +263,7 @@ a {
 }
 
 .entry-desc {
-  margin-top: 8px;
+  margin-top: 10px;
   max-width: var(--column);
   color: var(--muted);
 }
@@ -285,7 +318,7 @@ a {
 }
 
 .work-role + .work-role {
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .work-title {
@@ -294,6 +327,7 @@ a {
 
 .work-years {
   flex: none;
+  font-family: var(--font-code);
   font-size: 13px;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
@@ -305,6 +339,7 @@ a {
 
 .more a {
   color: var(--muted);
+  font-weight: 500;
 }
 
 .more a:hover {
@@ -336,7 +371,7 @@ a {
 .portrait {
   display: block;
   width: 280px;
-  height: 280px;
+  height: 350px;
   object-fit: cover;
 }
 
@@ -349,8 +384,7 @@ a {
 .article-head .sec-label {
   order: 1;
   display: flex;
-  gap: 12px;
-  text-transform: capitalize;
+  gap: 16px;
 }
 
 .article-head .sec-body {
@@ -359,8 +393,6 @@ a {
 
 .back {
   order: 0;
-  font-size: 12px;
-  font-weight: 500;
   margin-bottom: 24px;
 }
 
@@ -371,8 +403,8 @@ a {
 
 .prose {
   margin-top: 72px;
-  max-width: var(--column);
-  font-size: 17px;
+  max-width: 640px;
+  font-size: 19px;
   line-height: 1.65;
 }
 
@@ -383,21 +415,24 @@ a {
 .prose h2 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 24px;
+  font-size: 30px;
+  letter-spacing: -0.02em;
   line-height: 1.2;
   margin-top: 2.4em;
 }
 
 .prose h3 {
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 22px;
   margin-top: 2em;
 }
 
 .prose blockquote {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 .prose hr {
@@ -421,7 +456,7 @@ a {
 .prose table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .prose :where(th, td) {
@@ -467,8 +502,20 @@ a {
     margin-top: 72px;
   }
 
+  .site {
+    font-size: 17px;
+  }
+
+  .sec:first-child .text {
+    font-size: 19px;
+  }
+
+  .prose {
+    font-size: 18px;
+  }
+
   .entry-title {
-    font-size: 22px;
+    font-size: 25px;
   }
 
   .work-company {
@@ -493,15 +540,21 @@ a {
 
   .about {
     grid-template-columns: minmax(0, 1fr);
+    row-gap: 32px;
+  }
+
+  .about > .sec-label {
+    grid-column: 1;
   }
 
   .about > .sec-body {
+    grid-column: 1;
     grid-row: 2;
   }
 
   .portrait {
-    width: 160px;
-    height: 160px;
+    width: 200px;
+    height: 250px;
   }
 
   .prose :is(img, video) {

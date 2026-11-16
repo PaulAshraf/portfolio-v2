@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Head from '@/components/Head'
 import { Section } from '@/components/Log'
 import { textLinks } from '@/lib/links'
-import portraitImage from '@/images/avatar.jpeg'
+import portraitImage from '@/images/portrait.jpg'
 
 export default function About() {
   return (
