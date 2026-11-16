@@ -37,7 +37,7 @@ This includes all the [Kubernetes](https://kubernetes.io/) manifests it needs to
 
 The system was working great, until it didn't. We faced a weird cryptic error:
 
-<Image src={img1} />
+<Image src={img1} alt="" />
 
 After some googling around, turns out this is a common Argo error, and it happens when the `helm template` command fails. (Remember that argo only uses helm for its templating functionality, it manges the K8S syncing itself). Argo then caches this result in redis, so even a rebuild will not fix this because the helm chart did not change. According to a lot of threads on their Github Issues, this could happen randomly due to weird race conditions, or a myriad of other reasons. So then I tried my first approach:
 
@@ -57,7 +57,7 @@ So I decided to do the `helm dep update` myself. Finally, I get a proper error m
 
 Just bump the version in `Chart.yaml` but don't forget to run `helm dep update` locally so it can update the `Chart.lock` file. And that was it, Flush the redis cache and the build passes!
 
-<Image src={img2} />
+<Image src={img2} alt="" />
 
 This article is not a criticism of any of the tools mentioned above. These are all amazing tools and it is a ton of fun working with them. However, this annoying bug forced me to reconsider that this complicated CI/CD setup is quite over-engineered for our small startup.
 

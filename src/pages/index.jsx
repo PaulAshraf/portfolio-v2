@@ -1,69 +1,71 @@
-import { Container } from '@/components/Container'
+import Link from 'next/link'
+
 import Head from '@/components/Head'
-import {
-  TwitterIcon,
-  GitHubIcon,
-  LinkedInIcon,
-  SocialLink,
-} from '@/components/SocialIcons'
+import { EntryList, Section } from '@/components/Log'
+import { TextLinks } from '@/components/TextLinks'
 
 import { generateRssFeed } from '@/lib/generateRssFeed'
 import { getAllArticles, TECH_SECTIONS } from '@/lib/getAllArticles'
+import { goal } from '@/lib/journey'
 import { links } from '@/lib/links'
-
-import Article from '@/sections/Article'
-import Newsletter from '@/sections/Newsletter'
-import Resume from '@/sections/Resume'
-import JourneyCard from '@/sections/JourneyCard'
+import { resume } from '@/lib/resume'
 
 export default function Home({ articles }) {
   return (
     <>
       <Head title="Home" />
-      <Container className="mt-9">
-        <div className="max-w-2xl">
-          <h1 className="text-4xl font-bold tracking-tight text-slate-800 dark:text-slate-100 sm:text-5xl">
-            AI-native engineer, on the road to AI research.
-          </h1>
-          <p className="mt-6 text-base text-slate-600 dark:text-slate-400">
-            I&apos;m Paul, a software engineer who builds by driving AI agents
-            every day. I&apos;m now working toward technical AI safety research,
-            and this blog is where I write up what I learn, build, and break
-            along the way.
-          </p>
-          <div className="mt-6 flex gap-6">
-            <SocialLink
-              href={links.twitter}
-              aria-label="Follow on Twitter"
-              icon={TwitterIcon}
-            />
-            <SocialLink
-              href={links.github}
-              aria-label="Follow on GitHub"
-              icon={GitHubIcon}
-            />
-            <SocialLink
-              href={links.linkedin}
-              aria-label="Follow on LinkedIn"
-              icon={LinkedInIcon}
-            />
-          </div>
-        </div>
-      </Container>
-      <Container className="mt-24 md:mt-28">
-        <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
-          <div className="flex flex-col gap-16">
-            {articles.map((article) => (
-              <Article key={article.slug} article={article} mini />
-            ))}
-          </div>
-          <div className="space-y-10 lg:pl-16 xl:pl-24">
-            <JourneyCard />
-            <Newsletter />
-            <Resume />
-          </div>
-        </div>
-      </Container>
+      <Section label="About">
+        <h1 className="title">
+          AI-native engineer, on the road to AI research.
+        </h1>
+        <p className="text">
+          I&apos;m Paul, a software engineer who builds by driving AI agents
+          every day. I&apos;m now working toward technical AI safety research,
+          and this blog is where I write up what I learn, build, and break along
+          the way.
+        </p>
+        <TextLinks include={['github', 'x', 'linkedin']} />
+      </Section>
+
+      <Section label="Log" stack>
+        <EntryList articles={articles} />
+      </Section>
+
+      <Section label="Goal">
+        <p className="goal">{goal.text}</p>
+        <p className="more">
+          <Link href="/journey">→ journey</Link>
+        </p>
+      </Section>
+
+      <Section label="Work">
+        <ul className="work">
+          {resume.map((role) => (
+            <li key={`${role.company}-${role.title}`}>
+              <span className="work-role">
+                {role.company} — {role.title}
+              </span>
+              <span className="work-years">
+                {role.start} – {role.end}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p className="more">
+          <a href="/paul_ashraf_cv.pdf">→ cv.pdf</a>
+        </p>
+      </Section>
+
+      <Section label="Contact">
+        <p className="text">
+          If you work in AI safety and have feedback on something here, or want
+          to collaborate, email me at{' '}
+          <a className="link" href={`mailto:${links.mail}`}>
+            {links.mail}
+          </a>
+          .
+        </p>
+      </Section>
     </>
   )
 }

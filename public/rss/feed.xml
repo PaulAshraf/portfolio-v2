@@ -4,7 +4,7 @@
         <title>Paul Ashraf</title>
         <link>https://www.paulashraf.com</link>
         <description>Paul Ashraf on AI-native engineering and the road to AI research</description>
-        <lastBuildDate>Mon, 16 Nov 2026 00:54:33 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 16 Nov 2026 12:52:02 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
@@ -71,7 +71,7 @@ To prevent a single IP from monopolizing server resources, we enforced a connect
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<img loading="lazy" width="1380" height="615" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/1.1r_u4685376wv.png"/>
+<img alt="" loading="lazy" width="1380" height="615" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/1.1r_u4685376wv.png"/>
 <p>We can now add some components to simulate different mobile and desktop designs</p>
 <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>main</span><span class="token punctuation">&gt;</span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Hello, World!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
@@ -80,7 +80,7 @@ To prevent a single IP from monopolizing server resources, we enforced a connect
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">&gt;</span></span>Desktop Design<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>main</span><span class="token punctuation">&gt;</span></span>
 </code></pre>
-<img loading="lazy" width="1380" height="615" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/2.2eul_4iu4_gh1.png"/>
+<img alt="" loading="lazy" width="1380" height="615" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/2.2eul_4iu4_gh1.png"/>
 <p>Our goal is to conditionally show these <code>h2</code> tags. There are multiple approaches for this:</p>
 <h2>#1 Just some good old CSS!</h2>
 <p>We can simply just use css <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries">media queries</a> to selectively show and hide these elements. We can use the <a href="https://github.com/css-modules/css-modules">css modules</a> files shipped with the default next app to add some classes that achieves our goal.</p>
@@ -106,7 +106,7 @@ To prevent a single IP from monopolizing server resources, we enforced a connect
 <p>And if we run this, it indeed works! It switches the elements precisely at <code>768px</code>.</p>
 <video autoPlay="" loop="" muted="" playsInline=""><source src="/blog/react-ssr-responsive/3.webm" type="video/webm"/><source src="/blog/react-ssr-responsive/3-old.mp4" type="video/mp4"/></video>
 <p>While this approach is simple and works natively, it has one simple issue. If we peek at the code sent by our server (we can do that from the network tab in our devtools, filter by <code>Doc</code> for clarity, and then click preview to get a look at the raw <code>html</code> sent), we find it clearly:</p>
-<img loading="lazy" width="1615" height="1092" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/4.0ci2l7nlz2m7k.png"/>
+<img alt="" loading="lazy" width="1615" height="1092" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/4.0ci2l7nlz2m7k.png"/>
 <p>The server sends both components, and this makes sense. The React code includes both components so they will both be sent, accompanied with the css that will be evaluated by the browser and decides which one to show. Of course in this trivial example it&#x27;s not an issue. But for complex web apps, where large expensive component trees will be sent over the wire and hydrated on the client, it can get quiet excessive!</p>
 <p>If you accept this performance compromise, then this solution is perfect! Sure, it will be cumbersome to control everything with media queries and it will get annoying repeating the same component twice with different props and attaching a media query to show only one. So, we can do better!</p>
 <h2>#2 Throw JS at the issue <em>(Using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia">window.matchMedia</a> api)</em></h2>
@@ -133,7 +133,7 @@ To prevent a single IP from monopolizing server resources, we enforced a connect
 <p>If we took a look at Mantine&#x27;s <a href="https://github.com/mantinedev/mantine/blob/master/src/mantine-hooks/src/use-media-query/use-media-query.ts">source code</a>. Other than handling weird Safari bugs and providing important React plumbing for the hook to work smoothly, it handles a very important thing which is the core of our issue.</p>
 <p>What will the function return in the server, where it does not have access to the <code>window</code> object? The answer is that sadly we will never be able to know the screen width on the server. So simply, the function just accepts a second attribute <code>initialValue</code> that it will return if <code>typeof window === &quot;undefined&quot;</code> (essentially means we are running server side code right now).</p>
 <p>So what do we choose for <code>initialValue</code>? For us, we just simply chose based on whether the majority of our users are mobile or not. Turns out that <strong>95%</strong> of our users where on mobile, so we just simply turned <code>initialValue</code> to <code>true</code>.</p>
-<img loading="lazy" width="1499" height="910" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/7.0bebr7tsdedqi.png"/>
+<img alt="" loading="lazy" width="1499" height="910" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/7.0bebr7tsdedqi.png"/>
 <p>So there... we solved the issue for the vast majority of our users and shipped small documents as a bonus, pretty cool right? <strong>No.</strong> We can do better.</p>
 <h2>#3 Provide a better initial value</h2>
 <p>I kept thinking about ways I can detect the screen width while I was in the server, until it dawned on me! For our purposes, we only need to know if its a mobile or not. We have a way of knowing this with a reasonable degree of accuracy, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent">User Agents</a>!</p>
@@ -216,7 +216,7 @@ To prevent a single IP from monopolizing server resources, we enforced a connect
 </li>
 </ul>
 <p>The system was working great, until it didn&#x27;t. We faced a weird cryptic error:</p>
-<img loading="lazy" width="2170" height="448" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/1.2wlfdpo-9srt4.png"/>
+<img alt="" loading="lazy" width="2170" height="448" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/1.2wlfdpo-9srt4.png"/>
 <p>After some googling around, turns out this is a common Argo error, and it happens when the <code>helm template</code> command fails. (Remember that argo only uses helm for its templating functionality, it manges the K8S syncing itself). Argo then caches this result in redis, so even a rebuild will not fix this because the helm chart did not change. According to a lot of threads on their Github Issues, this could happen randomly due to weird race conditions, or a myriad of other reasons. So then I tried my first approach:</p>
 <h3>Approach #1: Flush the redis cache using <code>FLUSHALL</code> and restart the <code>repo-server</code> pod.</h3>
 <p>Unfortunately that did not work. However, it leaded me looking into the <code>repo-server</code> logs, which turned out to be really useful. I then was able to see the actual <code>helm template</code> build error, not the cryptic on Argo was giving me in the UI. It said it could not find the <code>redis</code> chart in the <code>/charts</code> subdirectory.</p>
@@ -226,7 +226,7 @@ To prevent a single IP from monopolizing server resources, we enforced a connect
 <p>So I decided to do the <code>helm dep update</code> myself. Finally, I get a proper error message! It said it could not download the <code>bitnami/redis</code> chart. After looking on <a href="https://artifacthub.io/packages/helm/bitnami/redis">Artifact Hub</a>, turns out our redis version was not listed anymore to be downloadable. So the obvious next step is to try and upgrade redis.</p>
 <h3>Approach #3: Upgrade the helm chart dependencies.</h3>
 <p>Just bump the version in <code>Chart.yaml</code> but don&#x27;t forget to run <code>helm dep update</code> locally so it can update the <code>Chart.lock</code> file. And that was it, Flush the redis cache and the build passes!</p>
-<img loading="lazy" width="1782" height="438" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/2.2g3hkyxa_zlkc.png"/>
+<img alt="" loading="lazy" width="1782" height="438" decoding="async" data-nimg="1" style="color:transparent" src="/_next/static/media/2.2g3hkyxa_zlkc.png"/>
 <p>This article is not a criticism of any of the tools mentioned above. These are all amazing tools and it is a ton of fun working with them. However, this annoying bug forced me to reconsider that this complicated CI/CD setup is quite over-engineered for our small startup.</p>
 <p>A 50-developer company with a platform engineering team, Awesome ✅. A 4-developer small startup, maybe be it needs to be reconsidered 🤔</p>
 <p>One last closing thought, we engineers often don&#x27;t consider how valuable our time is. In our pursuit of open-source, cloud-native tools that are fun to engineer and provide no vendor lock-ins, we often forget that they come with a hidden cost; the huge engineering time and effort it takes to maintain these tools and systems. For some teams, that cost makes sense and will pay off, for others it will not.</p>]]></content:encoded>

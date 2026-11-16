@@ -1,8 +1,7 @@
 @import 'tailwindcss/base';
-@import 'tailwindcss/components';
+@import './designs/base.css';
+@import './designs/margin.css';
+@import './designs/plain.css';
+@import './designs/axis.css';
 @import './prism.css';
 @import 'tailwindcss/utilities';
-
-html {
-  /* font-family: 'Poppins', sans-serif; */
-}

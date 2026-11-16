@@ -28,6 +28,10 @@ All posts are served at `/blog/<slug>` whatever their section, so old links keep
 
 `/journey` reads its goal, checkpoints, and learning areas from `src/lib/journey.js`. Keep that file in sync with the research repo's `AGENTS.md`. When a checkpoint is reviewed, set its `status` (`active`, `done`, `missed`, `upcoming`) and publish the review as a `research` post.
 
+## Designs
+
+Three candidate designs ship side by side behind a switcher (bottom-right): `margin`, `plain` and `axis`. The active one is `<html data-design>`, set before paint by `designScript` in `src/lib/designs.js` from `?design=<id>` or `localStorage`. All pages share one markup (`Section`, `Row`, `Entry` in `src/components/Log.jsx`); each design is a CSS file in `src/styles/designs/` that sets color tokens on `html[data-design=…]` (and `.dark`) and font tokens on `.site`. Once one design is chosen, delete the other two files and the switcher.
+
 ## Commands
 
 Node 20.9 or newer.

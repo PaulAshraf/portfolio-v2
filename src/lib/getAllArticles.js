@@ -27,6 +27,13 @@ export async function getAllArticles({ sections } = {}) {
 
   let articles = await Promise.all(articleFilenames.map(importArticle))
 
+  // Entry number across the whole log, oldest post = 1.
+  articles
+    .sort((a, z) => new Date(a.date) - new Date(z.date))
+    .forEach((article, index) => {
+      article.no = index + 1
+    })
+
   if (sections) {
     articles = articles.filter((article) => sections.includes(article.section))
   }

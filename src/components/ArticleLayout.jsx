@@ -1,26 +1,11 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import Giscus from '@giscus/react'
 
-import { Container } from '@/components/Container'
-import { formatDate } from '@/lib/formatDate'
-import { Prose } from '@/components/Prose'
+import { useIsDark } from '@/hooks/useHtmlAttribute'
 
 function blogLink(path) {
   return `https://www.paulashraf.com/blog/${path}`
-}
-
-function ArrowLeftIcon(props) {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
-      <path
-        d="M7.25 11.25 3.75 8m0 0 3.5-3.25M3.75 8h8.5"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
 }
 
 export function ArticleLayout({ isRssFeed = false, ...props }) {
@@ -32,15 +17,13 @@ export function ArticleLayout({ isRssFeed = false, ...props }) {
   return <ArticlePage {...props} />
 }
 
-function ArticlePage({ children, meta, previousPathname }) {
-  let router = useRouter()
+function ArticlePage({ children, meta }) {
+  let isDark = useIsDark()
+  let isFilm = meta.section === 'film'
 
   return (
     <>
       <Head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/ico" href="/favicon.ico" />
         <link key="canonical" rel="canonical" href={blogLink(meta.url)} />
 
         {/* SEO tags */}
@@ -69,7 +52,7 @@ function ArticlePage({ children, meta, previousPathname }) {
           <meta property="article:tag" content={tag} key={tag} />
         ))}
         <meta property="article:author" content={meta.author} />
-        <meta property="article:published_time" content={new Date(meta.date)} />
+        <meta property="article:published_time" content={meta.date} />
 
         <meta key="twitter:title" name="twitter:title" content={meta.title} />
         <meta
@@ -84,52 +67,43 @@ function ArticlePage({ children, meta, previousPathname }) {
           content={blogLink(meta.url)}
         />
       </Head>
-      <Container className="mt-16 lg:mt-32">
-        <div className="xl:relative">
-          <div className="mx-auto max-w-2xl">
-            {previousPathname && (
-              <button
-                type="button"
-                onClick={() => router.back()}
-                aria-label="Go back to blog"
-                className="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-slate-800/5 ring-1 ring-slate-900/5 transition dark:border dark:border-slate-700/50 dark:bg-slate-800 dark:ring-0 dark:ring-white/10 dark:hover:border-slate-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:-mt-2 lg:mb-0 xl:-top-1.5 xl:left-0 xl:mt-0"
-              >
-                <ArrowLeftIcon className="h-4 w-4 stroke-slate-500 transition group-hover:stroke-slate-700 dark:stroke-slate-500 dark:group-hover:stroke-slate-400" />
-              </button>
-            )}
-            <article>
-              <header className="flex flex-col">
-                <h1 className="mt-6 text-4xl font-bold tracking-tight text-slate-800 dark:text-slate-100 sm:text-5xl">
-                  {meta.title}
-                </h1>
-                <time
-                  dateTime={meta.date}
-                  className="order-first flex items-center text-base text-slate-400 dark:text-slate-500"
-                >
-                  <span className="h-4 w-0.5 rounded-full bg-slate-200 dark:bg-slate-500" />
-                  <span className="ml-3">{formatDate(meta.date)}</span>
-                </time>
-              </header>
-              <Prose className="my-8">{children}</Prose>
-              <Giscus
-                id="comments"
-                repo="PaulAshraf/portfolio-v2"
-                repoId="R_kgDOGieZpg"
-                category="Announcements"
-                categoryId="DIC_kwDOGieZps4CSUPI"
-                mapping="title"
-                reactionsEnabled="1"
-                emitMetadata="0"
-                inputPosition="bottom"
-                theme="preferred_color_scheme"
-                lang="en"
-                loading="lazy"
-                strict
-              />
-            </article>
+      <article className="article">
+        <section className="sec article-head">
+          <div className="sec-label">
+            <time className="ah-date" dateTime={meta.date}>
+              {meta.date}
+            </time>
+            <span className="ah-section">{meta.section}</span>
           </div>
-        </div>
-      </Container>
+          <div className="sec-body">
+            <Link className="back" href={isFilm ? '/films' : '/blog'}>
+              ← {isFilm ? 'films' : 'log'}
+            </Link>
+            <h1 className="title">{meta.title}</h1>
+          </div>
+        </section>
+        <div className="prose">{children}</div>
+        <section className="sec discussion">
+          <h2 className="sec-label">Discussion</h2>
+          <div className="sec-body">
+            <Giscus
+              id="comments"
+              repo="PaulAshraf/portfolio-v2"
+              repoId="R_kgDOGieZpg"
+              category="Announcements"
+              categoryId="DIC_kwDOGieZps4CSUPI"
+              mapping="title"
+              reactionsEnabled="1"
+              emitMetadata="0"
+              inputPosition="bottom"
+              theme={isDark ? 'noborder_dark' : 'noborder_light'}
+              lang="en"
+              loading="lazy"
+              strict
+            />
+          </div>
+        </section>
+      </article>
     </>
   )
 }

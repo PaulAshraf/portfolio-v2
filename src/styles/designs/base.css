@@ -1,0 +1,175 @@
+/*
+ * Shared structure for all three designs. Each design file sets the tokens
+ * below on html[data-design=<id>] (and .dark) and lays out the shared
+ * elements: .hdr .ftr .sec .row .entry .cps .prose and friends.
+ */
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.site {
+  font-family: var(--font-body);
+  color: var(--text);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wrap {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Design-specific pieces are hidden unless a design turns them on. */
+.margin-rule,
+.axis-bar,
+.journey-axis,
+.slot-countdown,
+.slot-path,
+.tg-margin,
+.tg-plain,
+.tg-axis,
+.ftr-end,
+.ftr-plain,
+.ftr-axis {
+  display: none;
+}
+
+.toggle {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+}
+
+.ftr-links,
+.textlinks {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sec-label {
+  font: inherit;
+}
+
+.entry-title {
+  font: inherit;
+}
+
+.cp-items,
+.learn,
+.rules,
+.work,
+.cps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cp-date,
+.cp-status,
+.entry-no,
+.entry-date,
+.ah-date,
+.ah-section,
+.about-label {
+  display: block;
+}
+
+.portrait {
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+.prose img,
+.prose video {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose pre {
+  overflow-x: auto;
+}
+
+.prose :where(ul) {
+  list-style: disc;
+}
+
+.prose :where(ol) {
+  list-style: decimal;
+}
+
+.prose :where(ul, ol) {
+  padding-left: 1.5em;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.prose :where(th, td) {
+  padding: 0.4em 0.6em 0.4em 0;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Design switcher: a neutral control that reads in every design. */
+.switcher {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  font: 500 11px/1 var(--font-plex-mono), ui-monospace, monospace;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.08);
+}
+
+.sw-label {
+  padding: 0 6px;
+  color: var(--muted);
+}
+
+.sw-option {
+  cursor: pointer;
+  padding: 6px 8px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+}
+
+.sw-option:hover {
+  color: var(--text);
+}
+
+.sw-option[aria-pressed='true'] {
+  background: var(--text);
+  color: var(--bg);
+}

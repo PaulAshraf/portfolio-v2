@@ -1,0 +1,573 @@
+/*
+ * AXIS: the site is a deadline. A 3px progress line across the top shows how
+ * much of the road to end-2027 has elapsed. Two type sizes, enormous and
+ * small, and no other lines, borders or boxes.
+ */
+
+html[data-design='axis'] {
+  --bg: #f3f4f6;
+  --text: #0b0d12;
+  --muted: #5b616e;
+  --rule: #d5d8df;
+  --accent: #2540e8;
+  --code-bg: #e9ebef;
+  --tok-keyword: #2540e8;
+  --tok-string: #0f7a5a;
+  --tok-number: #a14a00;
+  --display: clamp(2.5rem, 8vw, 5.5rem);
+  --column: 600px;
+}
+
+html[data-design='axis'].dark {
+  --bg: #0b0d12;
+  --text: #eceef3;
+  --muted: #959baa;
+  --rule: #252935;
+  --accent: #8fa0ff;
+  --code-bg: #141722;
+  --tok-keyword: #8fa0ff;
+  --tok-string: #6fd3b0;
+  --tok-number: #f0a868;
+}
+
+/* next/font variables live on .site, so font tokens are set there too. */
+[data-design='axis'] .site {
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-inter), sans-serif;
+}
+
+[data-design='axis'] .site {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+[data-design='axis'] .wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* The progress axis */
+[data-design='axis'] .axis-bar {
+  display: block;
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--rule);
+}
+
+[data-design='axis'] .ab-fill {
+  height: 100%;
+  background: var(--accent);
+}
+
+[data-design='axis'] .ab-tick {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 9px;
+  background: var(--text);
+}
+
+/* Header */
+[data-design='axis'] .hdr {
+  padding-top: 40px;
+  margin-bottom: 120px;
+}
+
+[data-design='axis'] .hdr-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+[data-design='axis'] .hdr-name {
+  font-weight: 500;
+}
+
+[data-design='axis'] .nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 24px;
+}
+
+[data-design='axis'] .nav-link {
+  color: var(--muted);
+}
+
+[data-design='axis'] .nav-link:hover,
+[data-design='axis'] .nav-link[aria-current='page'] {
+  color: var(--text);
+}
+
+[data-design='axis'] .tg-axis {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text);
+}
+
+[data-design='axis'].dark .tg-axis {
+  background: var(--text);
+}
+
+/* Footer */
+[data-design='axis'] .ftr {
+  margin-top: 160px;
+  padding-bottom: 48px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+[data-design='axis'] .ftr-main {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+[data-design='axis'] .ftr-links {
+  gap: 4px 16px;
+}
+
+[data-design='axis'] .ftr-links a:hover {
+  color: var(--text);
+}
+
+[data-design='axis'] .ftr-axis {
+  display: inline;
+  margin-right: 16px;
+}
+
+/* Sections: small muted label above, 120px apart */
+[data-design='axis'] .sec + .sec {
+  margin-top: 120px;
+}
+
+[data-design='axis'] :is(.sec-label, .row-meta, .kicker) {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+[data-design='axis'] .row-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+[data-design='axis'] .sec-body > :not(.title, .cps, .journey-axis, .row) {
+  max-width: var(--column);
+}
+
+[data-design='axis'] .title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--display);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+[data-design='axis'] .title + * {
+  margin-top: 40px;
+}
+
+[data-design='axis'] .text + .text {
+  margin-top: 16px;
+}
+
+[data-design='axis'] :is(.more, .textlinks) {
+  margin-top: 24px;
+}
+
+[data-design='axis'] .textlinks {
+  gap: 4px 24px;
+}
+
+[data-design='axis'] :is(.more a, .textlinks a, .back) {
+  color: var(--muted);
+}
+
+[data-design='axis'] :is(.more a, .textlinks a, .back):hover {
+  color: var(--accent);
+}
+
+[data-design='axis'] .link,
+[data-design='axis'] .prose a {
+  color: var(--accent);
+}
+
+[data-design='axis'] .link:hover,
+[data-design='axis'] .prose a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+[data-design='axis'] .goal {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+[data-design='axis'] .empty {
+  color: var(--muted);
+}
+
+/* Entries */
+[data-design='axis'] .row + .row {
+  margin-top: 40px;
+}
+
+[data-design='axis'] .entry-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  max-width: 760px;
+}
+
+[data-design='axis'] .entry-title a:hover {
+  color: var(--accent);
+}
+
+[data-design='axis'] .entry-desc {
+  margin-top: 8px;
+  max-width: var(--column);
+  color: var(--muted);
+}
+
+[data-design='axis'] .entry-tag {
+  display: none;
+}
+
+/* Work */
+[data-design='axis'] .work li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+[data-design='axis'] .work li + li {
+  margin-top: 6px;
+}
+
+[data-design='axis'] .work-years {
+  flex: none;
+  color: var(--muted);
+}
+
+/* Journey: the page reads as a chart */
+[data-design='axis'] .journey-axis {
+  display: block;
+  margin: 40px 0 72px;
+}
+
+[data-design='axis'] .ja-track {
+  position: relative;
+  height: 3px;
+  background: var(--rule);
+}
+
+[data-design='axis'] .ja-fill {
+  height: 100%;
+  background: var(--accent);
+}
+
+[data-design='axis'] .ja-tick,
+[data-design='axis'] .ja-now {
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 9px;
+  background: var(--text);
+}
+
+[data-design='axis'] .ja-now {
+  top: -8px;
+  height: 19px;
+  width: 2px;
+  background: var(--accent);
+}
+
+[data-design='axis'] .ja-label {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+[data-design='axis'] .ja-now .ja-label {
+  top: -22px;
+  color: var(--accent);
+}
+
+[data-design='axis'] .cps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+}
+
+[data-design='axis'] .cps > .row + .row {
+  margin-top: 0;
+}
+
+[data-design='axis'] .cp .row-meta {
+  display: block;
+  margin-bottom: 12px;
+}
+
+[data-design='axis'] .cp-date {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+}
+
+[data-design='axis'] .cp-status {
+  margin-top: 4px;
+}
+
+[data-design='axis'] .cp[data-status='active'] :is(.cp-date, .cp-status) {
+  color: var(--accent);
+}
+
+[data-design='axis'] .cp[data-status='done'] .cp-date {
+  color: var(--text);
+}
+
+[data-design='axis'] .cp[data-status='missed'] .cp-date {
+  text-decoration: line-through;
+}
+
+[data-design='axis'] .cp[data-status='upcoming'] .cp-items {
+  color: var(--muted);
+}
+
+[data-design='axis'] .cp-items li + li {
+  margin-top: 6px;
+}
+
+[data-design='axis'] .learn {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  max-width: none;
+}
+
+[data-design='axis'] .learn dt {
+  font-weight: 500;
+}
+
+[data-design='axis'] .learn dd {
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+[data-design='axis'] .rules {
+  counter-reset: rule;
+}
+
+[data-design='axis'] .rules li {
+  counter-increment: rule;
+  display: flex;
+  gap: 16px;
+}
+
+[data-design='axis'] .rules li + li {
+  margin-top: 8px;
+}
+
+[data-design='axis'] .rules li::before {
+  content: counter(rule);
+  color: var(--muted);
+}
+
+/* About: portrait right of the bio */
+[data-design='axis'] .about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 16px 64px;
+}
+
+[data-design='axis'] .about > .sec-label {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+}
+
+[data-design='axis'] .about > .sec-body {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+[data-design='axis'] .about .title {
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+}
+
+[data-design='axis'] .about-label {
+  display: none;
+}
+
+[data-design='axis'] .about .portrait {
+  width: 280px;
+  height: 280px;
+}
+
+/* Article */
+[data-design='axis'] .article-head {
+  display: flex;
+  flex-direction: column;
+}
+
+[data-design='axis'] .article-head .sec-label {
+  order: 1;
+  display: flex;
+  gap: 12px;
+  text-transform: capitalize;
+}
+
+[data-design='axis'] .article-head .sec-body {
+  display: contents;
+}
+
+[data-design='axis'] .back {
+  order: 0;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+[data-design='axis'] .article-head .title {
+  order: 2;
+  font-size: min(var(--display), 4rem);
+  max-width: 900px;
+}
+
+[data-design='axis'] .prose {
+  margin-top: 72px;
+  max-width: var(--column);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+[data-design='axis'] .prose > * + * {
+  margin-top: 1.2em;
+}
+
+[data-design='axis'] .prose h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+  margin-top: 2.4em;
+}
+
+[data-design='axis'] .prose h3 {
+  font-weight: 500;
+  margin-top: 2em;
+}
+
+[data-design='axis'] .prose blockquote {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+[data-design='axis'] .prose hr {
+  border: 0;
+  height: 0;
+  margin: 48px 0;
+}
+
+[data-design='axis'] .prose :not(pre) > code {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+}
+
+[data-design='axis'] .prose pre {
+  background: var(--code-bg);
+  padding: 24px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+[data-design='axis'] .prose :is(img, video) {
+  max-width: none;
+  width: min(976px, calc(100vw - 64px));
+}
+
+[data-design='axis'] .discussion {
+  margin-top: 120px;
+}
+
+@media (max-width: 639px) {
+  [data-design='axis'] .wrap {
+    padding: 0 16px;
+  }
+
+  [data-design='axis'] .hdr {
+    margin-bottom: 72px;
+  }
+
+  [data-design='axis'] .sec + .sec {
+    margin-top: 72px;
+  }
+
+  [data-design='axis'] .entry-title {
+    font-size: 22px;
+  }
+
+  [data-design='axis'] .cps,
+  [data-design='axis'] .learn {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-design='axis'] .work li {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  [data-design='axis'] .about {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-design='axis'] .about > .sec-label {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  [data-design='axis'] .about > .sec-body {
+    grid-row: 2;
+  }
+
+  [data-design='axis'] .about .portrait {
+    width: 160px;
+    height: 160px;
+  }
+
+  [data-design='axis'] .prose :is(img, video) {
+    width: 100%;
+  }
+}

@@ -1,140 +1,83 @@
-/**
- * Dracula Theme originally by Zeno Rocha [@zenorocha]
- * https://draculatheme.com/
- *
- * Ported for PrismJS by Albert Vallverdu [@byverdu]
- */
+/* Token colors come from the active design (see src/styles/designs). */
 
 code[class*='language-'],
 pre[class*='language-'] {
-  color: #f8f8f2;
-  background: none;
-  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  color: var(--text);
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
   word-wrap: normal;
-  line-height: 1.5;
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
+  tab-size: 2;
   hyphens: none;
-}
-
-/* Code blocks */
-pre[class*='language-'] {
-  padding: 1em;
-  margin: 0.5em 0;
-  overflow: auto;
-  border-radius: 0.3em;
-}
-
-:not(pre) > code[class*='language-'],
-pre[class*='language-'] {
-  background: #282a36;
-}
-
-/* Inline code */
-:not(pre) > code[class*='language-'] {
-  padding: 0.1em;
-  border-radius: 0.3em;
-  white-space: normal;
 }
 
 .token.comment,
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: #6272a4;
-}
-
-.token.punctuation {
-  color: #f8f8f2;
-}
-
-.namespace {
-  opacity: 0.7;
-}
-
-.token.property,
-.token.tag,
-.token.constant,
-.token.symbol,
-.token.deleted {
-  color: #ff79c6;
-}
-
-.token.boolean,
-.token.number {
-  color: #bd93f9;
-}
-
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.builtin,
-.token.inserted {
-  color: #50fa7b;
-}
-
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string,
-.token.variable {
-  color: #f8f8f2;
-}
-
-.token.atrule,
-.token.attr-value,
-.token.function,
-.token.class-name {
-  color: #f1fa8c;
-}
-
-.token.keyword {
-  color: #8be9fd;
-}
-
-.token.regex,
-.token.important {
-  color: #ffb86c;
-}
-
-.token.important,
-.token.bold {
-  font-weight: bold;
-}
-
-.token.italic {
+  color: var(--muted);
   font-style: italic;
 }
 
-.token.entity {
-  cursor: help;
+.token.punctuation,
+.token.operator {
+  color: var(--muted);
 }
 
-/* DIFF */
-
-.code-line.diff-inserted {
-  background-color: rgba(16, 185, 129, 0.2); /* Set inserted line (+) color */
+.token.keyword,
+.token.tag,
+.token.selector,
+.token.important,
+.token.atrule {
+  color: var(--tok-keyword, var(--text));
 }
 
-.code-line.diff-deleted {
-  background-color: rgba(239, 68, 68, 0.2); /* Set deleted line (-) color */
+.token.string,
+.token.char,
+.token.attr-value,
+.token.regex,
+.token.url {
+  color: var(--tok-string, var(--text));
 }
 
-.code-line.diff-warn {
-  background-color: rgba(104, 45, 15, 0.2); /* Set warn line (!) color */
+.token.number,
+.token.boolean,
+.token.constant,
+.token.symbol,
+.token.property,
+.token.attr-name,
+.token.variable {
+  color: var(--tok-number, var(--text));
 }
 
-.code-line.diff-comment {
-  background-color: rgba(255, 255, 255, 0.2); /* Set comment line (#) color */
+.token.function,
+.token.class-name {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.token.deleted {
+  text-decoration: line-through;
+}
+
+/* Plaintext: weight and grey only. */
+[data-design='plain'] .token.keyword,
+[data-design='plain'] .token.tag,
+[data-design='plain'] .token.selector,
+[data-design='plain'] .token.atrule {
+  font-weight: 600;
+}
+
+[data-design='plain'] .token.string,
+[data-design='plain'] .token.char,
+[data-design='plain'] .token.attr-value {
+  text-decoration: underline dotted var(--muted);
+  text-underline-offset: 3px;
+}
+
+[data-design='plain'] .token.function,
+[data-design='plain'] .token.class-name {
+  font-weight: 400;
 }

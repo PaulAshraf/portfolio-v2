@@ -2,6 +2,11 @@
 // Source of truth is AGENTS.md in the engineertoairesearcher repo. Update this
 // file when the plan changes or a checkpoint is reviewed.
 
+// The journey runs from `start` to `deadline`; the countdown and progress
+// axis are computed from these.
+export const start = '2026-11-15'
+export const deadline = '2027-12-31'
+
 export const goal = {
   by: 'End of 2027',
   text: 'An offer for a paid technical AI safety role: research engineer, research scientist, or member of technical staff, at any serious organization.',
