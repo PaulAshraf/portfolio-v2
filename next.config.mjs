@@ -1,30 +1,22 @@
 import nextMDX from '@next/mdx'
-import remarkGfm from 'remark-gfm'
-import rehypePrism from '@mapbox/rehype-prism'
-import rehypePrismDiff from 'rehype-prism-diff'
-import withVideos from 'next-videos'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   pageExtensions: ['jsx', 'mdx'],
   reactStrictMode: true,
-  webpack: {},
-  experimental: {
-    newNextLinkBehavior: true,
-    scrollRestoration: true,
-    images: {
-      unoptimized: true,
-      allowFutureImage: true,
-    },
+  images: {
+    unoptimized: true,
   },
 }
 
+// Plugins are referenced by package name so the config works with Turbopack.
 const withMDX = nextMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [remarkGfm],
-    rehypePlugins: [rehypePrism, rehypePrismDiff],
+    remarkPlugins: ['remark-gfm'],
+    rehypePlugins: ['@mapbox/rehype-prism'],
   },
 })
 
-export default withMDX(withVideos(nextConfig))
+export default withMDX(nextConfig)

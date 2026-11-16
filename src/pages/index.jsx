@@ -8,13 +8,13 @@ import {
 } from '@/components/SocialIcons'
 
 import { generateRssFeed } from '@/lib/generateRssFeed'
-import { getAllArticles } from '@/lib/getAllArticles'
+import { getAllArticles, TECH_SECTIONS } from '@/lib/getAllArticles'
 import { links } from '@/lib/links'
 
 import Article from '@/sections/Article'
 import Newsletter from '@/sections/Newsletter'
 import Resume from '@/sections/Resume'
-import Photos from '@/sections/Photos'
+import JourneyCard from '@/sections/JourneyCard'
 
 export default function Home({ articles }) {
   return (
@@ -23,12 +23,13 @@ export default function Home({ articles }) {
       <Container className="mt-9">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-slate-800 dark:text-slate-100 sm:text-5xl">
-            Software Engineer by day, and a Film Critic by night.
+            AI-native engineer, on the road to AI research.
           </h1>
           <p className="mt-6 text-base text-slate-600 dark:text-slate-400">
-            Im Paul, a software engineer and an aspiring film critic based in
-            Cairo. Join me on my journey discussing interesting tech, while
-            watching pretty good movies too along the ride.
+            I&apos;m Paul, a software engineer who builds by driving AI agents
+            every day. I&apos;m now working toward technical AI safety research,
+            and this blog is where I write up what I learn, build, and break
+            along the way.
           </p>
           <div className="mt-6 flex gap-6">
             <SocialLink
@@ -49,7 +50,6 @@ export default function Home({ articles }) {
           </div>
         </div>
       </Container>
-      <Photos />
       <Container className="mt-24 md:mt-28">
         <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
           <div className="flex flex-col gap-16">
@@ -58,6 +58,7 @@ export default function Home({ articles }) {
             ))}
           </div>
           <div className="space-y-10 lg:pl-16 xl:pl-24">
+            <JourneyCard />
             <Newsletter />
             <Resume />
           </div>
@@ -74,7 +75,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      articles: (await getAllArticles())
+      articles: (await getAllArticles({ sections: TECH_SECTIONS }))
         .slice(0, 3)
         .map(({ component, ...meta }) => meta),
     },

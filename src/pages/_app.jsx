@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useState } from 'react'
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
@@ -6,14 +6,16 @@ import { Header } from '@/components/Header'
 import '@/styles/tailwind.css'
 import 'focus-visible'
 
+// Remembers the previous value across renders without reading a ref during
+// render: https://react.dev/reference/react/useState#storing-information-from-previous-renders
 function usePrevious(value) {
-  let ref = useRef()
+  let [state, setState] = useState({ current: value, previous: undefined })
 
-  useEffect(() => {
-    ref.current = value
-  }, [value])
+  if (state.current !== value) {
+    setState({ current: value, previous: state.current })
+  }
 
-  return ref.current
+  return state.previous
 }
 
 export default function App({ Component, pageProps, router }) {
