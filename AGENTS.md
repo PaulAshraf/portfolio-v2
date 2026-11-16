@@ -30,7 +30,7 @@ All posts are served at `/blog/<slug>` whatever their section, so old links keep
 
 ## Commands
 
-Node 20.9 or newer.
+Node 22 (pinned in `package.json` `engines`; Vercel uses it too). The build command lives in `vercel.json`, which overrides the Vercel dashboard setting.
 
 - `yarn dev` runs on port 3030.
 - `yarn build` builds the static site into `out/` (`output: 'export'`). Production builds also regenerate the RSS feed in `public/rss/`.
