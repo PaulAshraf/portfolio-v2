@@ -26,7 +26,7 @@ All posts are served at `/blog/<slug>` whatever their section, so old links keep
 
 ## Design
 
-Two type sizes, enormous and small, and no rules, borders or boxes. Bricolage Grotesque for display, Inter for text, IBM Plex Mono for code. All styles live in `src/styles/site.css` as plain CSS on semantic classes, with color tokens on `:root` and `.dark`. Page building blocks (`Section`, `Row`, `Entry`) are in `src/components/Log.jsx`.
+Enormous headlines over generous text (18px body, 19px prose), and no rules, borders or boxes. Bricolage Grotesque (variable, optical size axis) for both display and text, IBM Plex Mono for labels, dates and code. All styles live in `src/styles/site.css` as plain CSS on semantic classes, with color tokens on `:root` and `.dark`. Page building blocks (`Section`, `Row`, `Entry`) are in `src/components/Log.jsx`.
 
 ## Commands
 

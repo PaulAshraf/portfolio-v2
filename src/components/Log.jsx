@@ -31,7 +31,7 @@ export function Row({
 }
 
 export function entryNumber(no) {
-  return `№ ${String(no).padStart(3, '0')}`
+  return `No. ${String(no).padStart(3, '0')}`
 }
 
 export function Entry({ article, label }) {
