@@ -37,7 +37,7 @@ const modeScript = `
 
 export default function Document() {
   return (
-    <Html className="h-full antialiased" lang="en">
+    <Html className="antialiased" lang="en">
       <Head>
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
         <link
@@ -50,12 +50,8 @@ export default function Document() {
           type="application/feed+json"
           href={`${process.env.NEXT_PUBLIC_SITE_URL}/rss/feed.json`}
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins&display=optional"
-          rel="stylesheet"
-        />
       </Head>
-      <body className="flex h-full flex-col bg-slate-50 dark:bg-black">
+      <body>
         <Main />
         <NextScript />
       </body>

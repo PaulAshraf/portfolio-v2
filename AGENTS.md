@@ -1,10 +1,10 @@
 # Paul Ashraf's site
 
-Next.js 16 (pages router, Turbopack) + Tailwind + MDX. This is Paul's personal site and the place where posts from the [engineertoairesearcher](https://github.com/PaulAshraf/engineertoairesearcher) repo get published. Read that repo's `AGENTS.md` for the thesis, goal, and rules behind the journey.
+Next.js 16 (pages router, Turbopack) + Tailwind + MDX. This is Paul's personal site and the place where posts from the [engineertoairesearcher](https://github.com/PaulAshraf/engineertoairesearcher) repo get published. Read that repo's `AGENTS.md` for the thesis and research rules.
 
 ## Positioning
 
-Paul is an AI-native engineer working toward a paid technical AI safety role by end of 2027. The site is a tech blog. Movie reviews are kept but live only under `/films`.
+Paul is an AI-native engineer moving into AI safety research. The site is a tech blog where he shares what he learns. Movie reviews are kept but live only under `/films`.
 
 ## Sections
 
@@ -12,7 +12,7 @@ Every post sets `meta.section`. It decides where the post is listed:
 
 | `section` | Listed on | Use for |
 |---|---|---|
-| `research` | `/journey`, `/blog`, home, RSS | Journey posts: replications, experiment write-ups, checkpoint reviews, explainers for engineers making the same move |
+| `research` | `/blog`, home, RSS | AI safety research posts: replications, experiment write-ups, explainers for engineers making the same move |
 | `technology` | `/blog`, home, RSS | General engineering posts |
 | `film` | `/films` only | Movie reviews |
 
@@ -22,11 +22,11 @@ All posts are served at `/blog/<slug>` whatever their section, so old links keep
 
 1. Create `src/pages/blog/<slug>.mdx`, or `src/pages/blog/<slug>/index.mdx` when it has images or other assets next to it.
 2. Copy the header from an existing post: import `ArticleLayout`, export `meta`, and the default export. `meta` needs `author`, `date` (`YYYY-MM-DD`), `title`, `description`, `section`, `seoKeywords` (comma separated), `url` (same as the slug), and `logoUrl` (OG image).
-3. Journey posts follow the research repo's rules: state the question and the prediction made before running anything, report null results honestly, and link the code in the research repo.
+3. Research posts follow the research repo's rules: state the question and the prediction made before running anything, report null results honestly, and link the code in the research repo.
 
-## Journey page
+## Design
 
-`/journey` reads its goal, checkpoints, and learning areas from `src/lib/journey.js`. Keep that file in sync with the research repo's `AGENTS.md`. When a checkpoint is reviewed, set its `status` (`active`, `done`, `missed`, `upcoming`) and publish the review as a `research` post.
+Two type sizes, enormous and small, and no rules, borders or boxes. Bricolage Grotesque for display, Inter for text, IBM Plex Mono for code. All styles live in `src/styles/site.css` as plain CSS on semantic classes, with color tokens on `:root` and `.dark`. Page building blocks (`Section`, `Row`, `Entry`) are in `src/components/Log.jsx`.
 
 ## Commands
 

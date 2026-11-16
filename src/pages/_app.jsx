@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Bricolage_Grotesque, IBM_Plex_Mono, Inter } from 'next/font/google'
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
@@ -6,35 +6,39 @@ import { Header } from '@/components/Header'
 import '@/styles/tailwind.css'
 import 'focus-visible'
 
-// Remembers the previous value across renders without reading a ref during
-// render: https://react.dev/reference/react/useState#storing-information-from-previous-renders
-function usePrevious(value) {
-  let [state, setState] = useState({ current: value, previous: undefined })
+const plexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-plex-mono',
+})
 
-  if (state.current !== value) {
-    setState({ current: value, previous: state.current })
-  }
+const bricolage = Bricolage_Grotesque({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-bricolage',
+})
 
-  return state.previous
-}
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-inter',
+})
 
-export default function App({ Component, pageProps, router }) {
-  let previousPathname = usePrevious(router.pathname)
+const fontVariables = [plexMono, bricolage, inter]
+  .map((font) => font.variable)
+  .join(' ')
 
+export default function App({ Component, pageProps }) {
   return (
-    <>
-      <div className="fixed inset-0 flex justify-center sm:px-8">
-        <div className="flex w-full max-w-7xl lg:px-8">
-          <div className="w-full bg-white ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-300/20" />
-        </div>
-      </div>
-      <div className="relative">
+    <div className={`site ${fontVariables}`}>
+      <div className="wrap">
         <Header />
-        <main>
-          <Component previousPathname={previousPathname} {...pageProps} />
+        <main className="page">
+          <Component {...pageProps} />
         </main>
         <Footer />
       </div>
-    </>
+    </div>
   )
 }

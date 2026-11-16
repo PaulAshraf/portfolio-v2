@@ -37,7 +37,7 @@ export default function Home() {
 }
 ```
 
-<Image src={img1} />
+<Image src={img1} alt="" />
 
 We can now add some components to simulate different mobile and desktop designs
 
@@ -50,7 +50,7 @@ We can now add some components to simulate different mobile and desktop designs
 </main>
 ```
 
-<Image src={img2} />
+<Image src={img2} alt="" />
 
 Our goal is to conditionally show these `h2` tags. There are multiple approaches for this:
 
@@ -90,7 +90,7 @@ And if we run this, it indeed works! It switches the elements precisely at `768p
 
 While this approach is simple and works natively, it has one simple issue. If we peek at the code sent by our server (we can do that from the network tab in our devtools, filter by `Doc` for clarity, and then click preview to get a look at the raw `html` sent), we find it clearly:
 
-<Image src={img4} />
+<Image src={img4} alt="" />
 
 The server sends both components, and this makes sense. The React code includes both components so they will both be sent, accompanied with the css that will be evaluated by the browser and decides which one to show. Of course in this trivial example it's not an issue. But for complex web apps, where large expensive component trees will be sent over the wire and hydrated on the client, it can get quiet excessive!
 
@@ -140,7 +140,7 @@ What will the function return in the server, where it does not have access to th
 
 So what do we choose for `initialValue`? For us, we just simply chose based on whether the majority of our users are mobile or not. Turns out that **95%** of our users where on mobile, so we just simply turned `initialValue` to `true`.
 
-<Image src={img7} />
+<Image src={img7} alt="" />
 
 So there... we solved the issue for the vast majority of our users and shipped small documents as a bonus, pretty cool right? **No.** We can do better.
 
